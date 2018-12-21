@@ -65,17 +65,17 @@ Route::post('login/access_token', function (Request $request) {
 Route::post('/deploy', function (Request $request) {
     $path = base_path();
 
-    $sig_check = 'sha1='.hash_hmac('sha1', Request::getContent(), config('app.key'));
+    $sig_check = 'sha1='.hash_hmac('sha1', $request->getContent(), config('app.key'));
     $x_hub_signature = $request->header('X-Hub-Signature');
 
     if ($x_hub_signature || $x_hub_signature !== $sig_check) {
         return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
-    $cmd = "cd $path && git checkout . && git pull";
-    $result = shell_exec($cmd);
+    $cmd = "cd $path && git checkout .gi && git pull";
+    $output = shell_exec($cmd);
 
-    return response()->json(['data' => ['cmd' => $cmd], 'message' => 'Success'], 200);
+    return response()->json(['data' => ['cmd' => $cmd, 'output' => $output], 'message' => 'Success'], 200);
 });
 
 Route::any('/{all}', function () {
