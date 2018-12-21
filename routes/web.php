@@ -61,6 +61,20 @@ Route::post('login/access_token', function (Request $request) {
     return response()->json(['data' => $data], 200);
 });
 
+// routes/web.php
+Route::post('/deploy', function () {
+    $path = base_path();
+    $token = config('key');
+    $json = json_decode(file_get_contents('php://input'), true);
+
+    if (empty($json['token']) || $json['token'] !== $token) {
+        exit('error request');
+    }
+
+    $cmd = "cd $path && git pull";
+    shell_exec($cmd);
+});
+
 Route::any('/{all}', function () {
     return view('index');
 })->where(['all' => '.*']);
