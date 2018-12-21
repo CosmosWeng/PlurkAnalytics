@@ -41,7 +41,7 @@ class Deploy extends Command
         $cmd    = "cd $path && git checkout . && git pull && composer update";
         $output = shell_exec($cmd);
 
-        $this->line('cmd :'.$cmd);
-        $this->line('output'.$cmd);
+        $this->line('cmd: '.$cmd);
+        $this->line('output: '.$output);
     }
 }
