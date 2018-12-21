@@ -64,12 +64,12 @@ Route::post('login/access_token', function (Request $request) {
 // routes/web.php
 Route::post('/deploy', function (Request $request) {
     $path = base_path();
-    $token = 'sha1='.sha1(config('app.key'));
 
+    $sig_check = 'sha1='.hash_hmac('sha1', Request::getContent(), config('app.key'));
     $x_hub_signature = $request->header('X-Hub-Signature');
 
-    if ($x_hub_signature || $x_hub_signature !== $token) {
-        return response()->json(['data' => ['token' => $token, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
+    if ($x_hub_signature || $x_hub_signature !== $sig_check) {
+        return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
     $cmd = "cd $path && git pull";
