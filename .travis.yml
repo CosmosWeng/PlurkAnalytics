@@ -8,13 +8,9 @@ install:
 
 before_script:
   - cp .env.example .env
-  - mysql -e 'CREATE DATABASE homestead;'
   - php artisan key:generate
 
 script: vendor/bin/phpunit -c phpunit.xml --coverage-text
-
-services:
-  - mysql
 
 notifications:
   email:
