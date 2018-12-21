@@ -64,16 +64,18 @@ Route::post('login/access_token', function (Request $request) {
 // routes/web.php
 Route::post('/deploy', function (Request $request) {
     $path = base_path();
-    $token = config('key');
+    $token = sha1(config('key'));
 
     $x_hub_signature = $request->header('X-Hub-Signature');
 
-    if ($x_hub_signature || $x_hub_signature !== $token) {
-        return response()->json(['data' => ['token' => $x_hub_signature], 'message' => 'error request'], 200);
+    if ($x_hub_signature || $x_hub_signature !== 'sha1='.$token) {
+        return response()->json(['data' => ['token' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
     $cmd = "cd $path && git pull";
-    shell_exec($cmd);
+    $result = shell_exec($cmd);
+
+    return response()->json(['data' => ['result' => $result], 'message' => 'Success'], 200);
 });
 
 Route::any('/{all}', function () {
