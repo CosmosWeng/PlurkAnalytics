@@ -72,10 +72,10 @@ Route::post('/deploy', function (Request $request) {
         return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
-    $cmd = "cd $path && git checkout . && git pull && composer update";
-    $output = shell_exec($cmd);
+    Artisan::call('deploy');
+    $output = Artisan::output();
 
-    return response()->json(['data' => ['cmd' => $cmd, 'output' => $output], 'message' => 'Success'], 200);
+    return response()->json(['data' => ['output' => $output], 'message' => 'Success'], 200);
 });
 
 Route::any('/{all}', function () {

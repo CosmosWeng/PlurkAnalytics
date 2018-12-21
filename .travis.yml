@@ -13,6 +13,11 @@ before_script:
 
 script: vendor/bin/phpunit -c phpunit.xml --coverage-text
 
+deploy:
+  provider: script
+  script: # some deployment script
+    - php artisan deploy
+
 notifications:
   email:
     recipients:
