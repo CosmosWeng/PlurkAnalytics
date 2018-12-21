@@ -1,0 +1,18 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+install:
+  - composer install --prefer-dist --no-dev --optimize-autoloader --quiet
+
+notifications:
+  email:
+    recipients:
+      - cosmos-s@hotmail.com.tw
+    on_success: always
+    on_failure: always
+
+script: phpunit -c phpunit.xml --coverage-text
