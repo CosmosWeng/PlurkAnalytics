@@ -64,11 +64,11 @@ Route::post('login/access_token', function (Request $request) {
 // routes/web.php
 Route::post('/deploy', function (Request $request) {
     $path = base_path();
-    $token = sha1(config('key'));
+    $token = 'sha1='.sha1(config('app.key'));
 
     $x_hub_signature = $request->header('X-Hub-Signature');
 
-    if ($x_hub_signature || $x_hub_signature !== 'sha1='.$token) {
+    if ($x_hub_signature || $x_hub_signature !== $token) {
         return response()->json(['data' => ['token' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
