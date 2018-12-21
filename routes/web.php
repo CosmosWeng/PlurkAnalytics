@@ -68,7 +68,7 @@ Route::post('/deploy', function () {
     $json = json_decode(file_get_contents('php://input'), true);
 
     if (empty($json['token']) || $json['token'] !== $token) {
-        exit('error request');
+        return response()->json(['data' => $json, 'message' => 'rror request'], 200);
     }
 
     $cmd = "cd $path && git pull";
