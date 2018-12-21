@@ -5,6 +5,7 @@ php:
 
 install:
   - composer install --prefer-dist --no-dev --optimize-autoloader --quiet
+  - composer dump-autoload
 
 before_script:
   - cp .env.example .env
