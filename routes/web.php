@@ -62,13 +62,14 @@ Route::post('login/access_token', function (Request $request) {
 });
 
 // routes/web.php
-Route::post('/deploy', function () {
+Route::post('/deploy', function (Request $request) {
     $path = base_path();
     $token = config('key');
-    $json = json_decode(file_get_contents('php://input'), true);
 
-    if (empty($json['token']) || $json['token'] !== $token) {
-        return response()->json(['data' => $json, 'message' => 'error request'], 200);
+    $x_hub_signature = $request->header('X-Hub-Signature');
+
+    if ($x_hub_signature || $x_hub_signature !== $token) {
+        return response()->json(['data' => ['token' => $x_hub_signature], 'message' => 'error request'], 200);
     }
 
     $cmd = "cd $path && git pull";

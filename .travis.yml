@@ -1,9 +1,7 @@
 language: php
 
 php:
-  - 7.1
   - 7.2
-  - 7.3
 
 install:
   - composer install --prefer-dist --no-dev --optimize-autoloader --quiet
@@ -15,4 +13,4 @@ notifications:
     on_success: always
     on_failure: always
 
-script: phpunit -c phpunit.xml --coverage-text
+script: vendor/bin/phpunit -c phpunit.xml --coverage-text
