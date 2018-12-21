@@ -38,9 +38,19 @@ class Deploy extends Command
     public function handle()
     {
         $path   = base_path();
-        // $cmd    = "cd $path && sudo git checkout . && sudo git pull";
-        $cmd    = 'echo Hellow ';
-        $output = shell_exec($cmd);
+        $cmd    = '';
+        $output = '';
+
+        $commands = [
+            "cd $path",
+            `git checkout .`,
+            `git pull`,
+        ] ;
+
+        foreach ($commands as $command) {
+            $cmd .= $command.' ';
+            $output .= shell_exec($command);
+        }
 
         $this->line('cmd: '.$cmd);
         $this->line('output: '.$output);
