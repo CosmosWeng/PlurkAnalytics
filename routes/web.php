@@ -68,9 +68,9 @@ Route::post('/deploy', function (Request $request) {
     $x_hub_signature = $request->header('X-Hub-Signature');
     $agent = $request->header('User-Agent');
 
-    // if (preg_match('/GitHub/i', $agent) && ! $x_hub_signature || $x_hub_signature !== $sig_check) {
-    //     return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
-    // }
+    if (preg_match('/GitHub/i', $agent) && ! $x_hub_signature || $x_hub_signature !== $sig_check) {
+        return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
+    }
 
     Artisan::call('deploy');
     $output = Artisan::output();
