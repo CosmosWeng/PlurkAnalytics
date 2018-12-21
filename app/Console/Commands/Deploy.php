@@ -38,7 +38,7 @@ class Deploy extends Command
     public function handle()
     {
         $path   = base_path();
-        $cmd    = "cd $path && git checkout . && git pull && composer update";
+        $cmd    = "cd $path && sudo git checkout . && sudo git pull && composer update";
         $output = shell_exec($cmd);
 
         $this->line('cmd: '.$cmd);
