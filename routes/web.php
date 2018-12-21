@@ -69,7 +69,7 @@ Route::post('/deploy', function (Request $request) {
     $x_hub_signature = $request->header('X-Hub-Signature');
 
     if ($x_hub_signature || $x_hub_signature !== $token) {
-        return response()->json(['data' => ['token' => $x_hub_signature], 'message' => 'error request'], 500);
+        return response()->json(['data' => ['token' => $token, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
     }
 
     $cmd = "cd $path && git pull";
