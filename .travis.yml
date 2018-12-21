@@ -6,11 +6,19 @@ php:
 install:
   - composer install --prefer-dist --no-dev --optimize-autoloader --quiet
 
+before_script:
+  - cp .env.example .env
+  - mysql -e 'CREATE DATABASE homestead;'
+  - php artisan key:generate
+
+script: vendor/bin/phpunit -c phpunit.xml --coverage-text
+
+services:
+  - mysql
+
 notifications:
   email:
     recipients:
       - cosmos-s@hotmail.com.tw
     on_success: always
     on_failure: always
-
-script: vendor/bin/phpunit -c phpunit.xml --coverage-text
