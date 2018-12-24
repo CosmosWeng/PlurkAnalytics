@@ -6,8 +6,38 @@ Vue.use(Router)
 import { getToken, getAccessToken } from '@api/login'
 import store from '../store'
 
+import Layout from '@views/layout/Layout'
+import UserIndex from '@views/user/Index'
+import FriendList from '@views/friend/List'
+
 const routes = [
-  { path: '/' },
+  { path: '/', component: Layout, redirect: '/user/info' },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/info',
+    children: [
+      {
+        path: 'info',
+        component: UserIndex,
+        name: 'User'
+      }
+    ]
+  },
+
+  {
+    path: '/friend',
+    component: Layout,
+    redirect: '/friend/list',
+    children: [
+      {
+        path: 'list',
+        component: FriendList,
+        name: 'FriendList'
+      }
+    ]
+  },
+
   {
     path: '/login',
     redirect: (to, from, next) => {

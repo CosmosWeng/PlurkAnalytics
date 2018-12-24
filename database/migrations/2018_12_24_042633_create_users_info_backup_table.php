@@ -14,9 +14,9 @@ class CreateUsersInfoBackupTable extends Migration
     public function up()
     {
         Schema::create('users_info_backup', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('user_id');
             $table->jsonb('info')->comment('backup');
-            $table->primary('id');
+            // $table->index('user_id');
         });
     }
 

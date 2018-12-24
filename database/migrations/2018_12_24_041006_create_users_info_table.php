@@ -14,7 +14,7 @@ class CreateUsersInfoTable extends Migration
     public function up()
     {
         Schema::create('users_info', function (Blueprint $table) {
-            $table->integer('id');
+            $table->integer('user_id');
             $table->string('nick_name')->unique();
             $table->string('display_name')->nullable()->comment('顯示名稱');
             $table->decimal('karma')->nullable()->comment('Karma 值');
@@ -24,7 +24,7 @@ class CreateUsersInfoTable extends Migration
             $table->text('about_renderred')->nullable()->comment('關於, renderred');
             $table->string('avatar_big')->nullable()->comment('頭像');
 
-            $table->primary('id');
+            $table->index('user_id');
             $table->index('nick_name');
         });
     }

@@ -17,7 +17,7 @@ export function getToken(query) {
 
 export function getAccessToken(query) {
   return request({
-    url: '/login/access_token',
+    url: '/login/accessToken',
     method: 'post',
     params: query
   })
