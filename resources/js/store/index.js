@@ -7,16 +7,10 @@ import * as modules from './modules'
 Vue.use(Vuex)
 
 const state = {
-  lang: 'en',
-  user: null
+  lang: 'en'
 }
 
-const mutations = {
-  setUser(state, data) {
-    state.user = data
-    localStorage.setObject('user', data)
-  }
-}
+const mutations = {}
 
 const actions = {}
 

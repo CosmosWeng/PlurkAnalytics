@@ -3471,6 +3471,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3492,6 +3494,14 @@ __webpack_require__.r(__webpack_exports__);
         address: '上海市普陀区金沙江路 1516 弄'
       }]
     };
+  },
+  computed: {
+    friends: function friends() {
+      return this.$store.getters['user/getFriends'];
+    }
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('user/GetFriends');
   },
   methods: {
     handleEdit: function handleEdit(index, row) {
@@ -3614,17 +3624,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     user: function user() {
-      return this.$store.state.user;
+      return this.$store.state.user.info;
     }
   },
   mounted: function mounted() {
-    var _this = this;
-
-    Object(_api_user__WEBPACK_IMPORTED_MODULE_0__["getUsersMe"])().then(function (result) {
-      if (result.hasOwnProperty('data')) {
-        _this.$store.commit('setUser', result.data);
-      }
-    }).catch(function (err) {});
+    this.$store.dispatch('user/GetUsersMe'); // getUsersMe().then((result) => {
+    //   if (result.hasOwnProperty('data')) {
+    //     this.$store.commit('setUser', result.data)
+    //   }
+    // }).catch((err) => {
+    // })
   }
 });
 
@@ -5487,7 +5496,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -68446,19 +68455,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "ElTable",
-    { staticStyle: { width: "100%" }, attrs: { data: _vm.tableData } },
+    { staticStyle: { width: "100%" }, attrs: { data: _vm.friends } },
     [
       _c("ElTableColumn", {
-        attrs: { label: "日期", width: "180" },
+        attrs: { label: "ID", width: "180" },
         scopedSlots: _vm._u([
           {
             key: "default",
             fn: function(scope) {
               return [
-                _c("i", { staticClass: "el-icon-time" }),
-                _vm._v(" "),
                 _c("span", { staticStyle: { "margin-left": "10px" } }, [
-                  _vm._v("\n        " + _vm._s(scope.row.date) + "\n      ")
+                  _vm._v("\n        " + _vm._s(scope.row.id) + "\n      ")
                 ])
               ]
             }
@@ -68477,9 +68484,11 @@ var render = function() {
                   "ElPopover",
                   { attrs: { trigger: "hover", placement: "top" } },
                   [
-                    _c("p", [_vm._v("姓名: " + _vm._s(scope.row.name))]),
+                    _c("p", [
+                      _vm._v("姓名: " + _vm._s(scope.row.display_name))
+                    ]),
                     _vm._v(" "),
-                    _c("p", [_vm._v("住址: " + _vm._s(scope.row.address))]),
+                    _c("p", [_vm._v("帳號: " + _vm._s(scope.row.nick_name))]),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -68492,7 +68501,7 @@ var render = function() {
                         _c("ElTag", { attrs: { size: "medium" } }, [
                           _vm._v(
                             "\n            " +
-                              _vm._s(scope.row.name) +
+                              _vm._s(scope.row.full_name) +
                               "\n          "
                           )
                         ])
@@ -68508,7 +68517,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("ElTableColumn", {
-        attrs: { label: "操作" },
+        attrs: { label: "操作", align: "right" },
         scopedSlots: _vm._u([
           {
             key: "default",
@@ -83616,17 +83625,31 @@ function getAccessToken(query) {
 /*!**********************************!*\
   !*** ./resources/js/api/user.js ***!
   \**********************************/
-/*! exports provided: getUsersMe */
+/*! exports provided: getUsersMe, getFriends */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUsersMe", function() { return getUsersMe; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFriends", function() { return getFriends; });
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @utils/request */ "./resources/js/utils/request.js");
+/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! element-ui */ "./node_modules/element-ui/lib/element-ui.common.js");
+/* harmony import */ var element_ui__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(element_ui__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 function getToken() {
   var r = localStorage.getObject('r');
+
+  if (!r) {
+    Object(element_ui__WEBPACK_IMPORTED_MODULE_1__["Message"])({
+      message: 'Not Token',
+      type: 'error',
+      duration: 5 * 1000
+    });
+    throw 'Not Token';
+  }
+
   return {
     oauth_token: r['oauth_token'],
     oauth_token_secret: r['oauth_token_secret']
@@ -83636,6 +83659,13 @@ function getToken() {
 function getUsersMe() {
   return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
     url: '/plurk/getMe',
+    method: 'get',
+    params: getToken()
+  });
+}
+function getFriends() {
+  return Object(_utils_request__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    url: '/plurk/getFriends',
     method: 'get',
     params: getToken()
   });
@@ -83819,7 +83849,6 @@ var routes = [{
     Object(_api_login__WEBPACK_IMPORTED_MODULE_2__["getAccessToken"])(query).then(function (result) {
       if (result.hasOwnProperty('data')) {
         localStorage.setObject('r', result.data.r); // localStorage.setObject('user', result.data.user)
-        // store.commit('setUser', result.data.user)
       }
     });
     next({
@@ -83856,22 +83885,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modules__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules */ "./resources/js/store/modules/index.js");
-/* harmony import */ var _modules__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_modules__WEBPACK_IMPORTED_MODULE_2__);
 
 
  // import getters from './getters'
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var state = {
-  lang: 'en',
-  user: null
+  lang: 'en'
 };
-var mutations = {
-  setUser: function setUser(state, data) {
-    state.user = data;
-    localStorage.setObject('user', data);
-  }
-};
+var mutations = {};
 var actions = {};
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: state,
@@ -83887,10 +83909,146 @@ var actions = {};
 /*!*********************************************!*\
   !*** ./resources/js/store/modules/index.js ***!
   \*********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: user */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-// export { default as user } from './user'
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./user */ "./resources/js/store/modules/user/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "user", function() { return _user__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/user/actions.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/user/actions.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @api/user */ "./resources/js/api/user.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  GetFriends: function GetFriends(_ref) {
+    var commit = _ref.commit,
+        state = _ref.state;
+    return new Promise(function (resolve, reject) {
+      Object(_api_user__WEBPACK_IMPORTED_MODULE_0__["getFriends"])().then(function (response) {
+        if (!response.data) {
+          // 由於mockjs 不支持自定義狀態碼只能這樣hack
+          reject('error');
+        }
+
+        var data = response.data;
+
+        if (data && Object.keys(data).length > 0) {
+          commit('SET_FRIENDS', data);
+        } else {
+          reject('getInfo: friends must be a non-null array !');
+        }
+
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  },
+  GetUsersMe: function GetUsersMe(_ref2) {
+    var commit = _ref2.commit,
+        state = _ref2.state;
+    return new Promise(function (resolve, reject) {
+      Object(_api_user__WEBPACK_IMPORTED_MODULE_0__["getUsersMe"])().then(function (response) {
+        if (!response.data) {
+          // 由於mockjs 不支持自定義狀態碼只能這樣hack
+          reject('error');
+        }
+
+        var data = response.data;
+
+        if (data && Object.keys(data).length > 0) {
+          commit('SET_ME', data);
+        } else {
+          reject('getInfo: Info must be a non-null array !');
+        }
+
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/user/getters.js":
+/*!****************************************************!*\
+  !*** ./resources/js/store/modules/user/getters.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getFriends: function getFriends(state) {
+    var friends = [],
+        object = state.friendObjects;
+
+    for (var key in object) {
+      if (object.hasOwnProperty(key)) {
+        var element = object[key];
+        element.id = key;
+        friends.push(element);
+      }
+    }
+
+    return friends;
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/user/index.js":
+/*!**************************************************!*\
+  !*** ./resources/js/store/modules/user/index.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions.js */ "./resources/js/store/modules/user/actions.js");
+/* harmony import */ var _getters_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getters.js */ "./resources/js/store/modules/user/getters.js");
+// import state from './state.js'
+// import mutations from './mutations.js'
+
+
+var state = {
+  data: [],
+  object: {},
+  info: {},
+  friendObjects: {}
+};
+var mutations = {
+  SET_ME: function SET_ME(state, data) {
+    state.info = data;
+  },
+  SET_FRIENDS: function SET_FRIENDS(state, data) {
+    state.friendObjects = data;
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  mutations: mutations,
+  actions: _actions_js__WEBPACK_IMPORTED_MODULE_0__["default"],
+  getters: _getters_js__WEBPACK_IMPORTED_MODULE_1__["default"]
+});
 
 /***/ }),
 

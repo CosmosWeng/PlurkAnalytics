@@ -15,17 +15,18 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.state.user
+      return this.$store.state.user.info
     }
   },
   mounted() {
-    getUsersMe().then((result) => {
-      if (result.hasOwnProperty('data')) {
-        this.$store.commit('setUser', result.data)
-      }
-    }).catch((err) => {
+    this.$store.dispatch('user/GetUsersMe')
+    // getUsersMe().then((result) => {
+    //   if (result.hasOwnProperty('data')) {
+    //     this.$store.commit('setUser', result.data)
+    //   }
+    // }).catch((err) => {
 
-    })
+    // })
   },
 }
 </script>

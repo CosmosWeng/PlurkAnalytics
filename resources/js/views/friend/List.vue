@@ -1,16 +1,15 @@
 <template>
   <ElTable
-    :data="tableData"
+    :data="friends"
     style="width: 100%"
   >
     <ElTableColumn
-      label="日期"
+      label="ID"
       width="180"
     >
       <template slot-scope="scope">
-        <i class="el-icon-time" />
         <span style="margin-left: 10px">
-          {{ scope.row.date }}
+          {{ scope.row.id }}
         </span>
       </template>
     </ElTableColumn>
@@ -23,20 +22,23 @@
           trigger="hover"
           placement="top"
         >
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
+          <p>姓名: {{ scope.row.display_name }}</p>
+          <p>帳號: {{ scope.row.nick_name }}</p>
           <div
             slot="reference"
             class="name-wrapper"
           >
             <ElTag size="medium">
-              {{ scope.row.name }}
+              {{ scope.row.full_name }}
             </ElTag>
           </div>
         </ElPopover>
       </template>
     </ElTableColumn>
-    <ElTableColumn label="操作">
+    <ElTableColumn
+      label="操作"
+      align="right"
+    >
       <template slot-scope="scope">
         <ElButton
           size="mini"
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -76,8 +79,17 @@ export default {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      }],
     }
+  },
+  computed: {
+    friends() {
+      return this.$store.getters['user/getFriends']
+    }
+  },
+  mounted() {
+    this.$store.dispatch('user/GetFriends')
+
   },
   methods: {
     handleEdit(index, row) {
