@@ -20,13 +20,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('user/GetUsersMe')
-    // getUsersMe().then((result) => {
-    //   if (result.hasOwnProperty('data')) {
-    //     this.$store.commit('setUser', result.data)
-    //   }
-    // }).catch((err) => {
-
-    // })
   },
 }
 </script>
