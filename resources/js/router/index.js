@@ -65,7 +65,7 @@ const routes = [
         if (result.hasOwnProperty('data')) {
           localStorage.setObject('r', result.data.r)
           // localStorage.setObject('user', result.data.user)
-          store.commit('setUser', result.data.user)
+          // store.commit('setUser', result.data.user)
         }
       })
 

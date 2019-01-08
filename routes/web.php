@@ -14,6 +14,11 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::group(['prefix' => 'api/login'], function () {
+    Route::post('getToken', 'AuthController@getToken');
+    Route::post('accessToken', 'AuthController@getAccessToken');
+});
+
 // routes/web.php
 // Route::post('/deploy', function (Request $request) {
 //     $path = base_path();

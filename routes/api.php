@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'login'], function () {
-    Route::post('getToken', 'AuthController@getToken');
-    Route::post('accessToken', 'AuthController@getAccessToken');
+Route::group(['prefix' => 'plurk'], function () {
+    Route::get('getFriends', 'PlurkController@getFriendsCompletion');
+    Route::get('getMe', 'PlurkController@getUsersMe');
 });
