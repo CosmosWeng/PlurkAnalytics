@@ -3616,6 +3616,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'UserIndo',
@@ -3628,12 +3676,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('user/GetUsersMe'); // getUsersMe().then((result) => {
-    //   if (result.hasOwnProperty('data')) {
-    //     this.$store.commit('setUser', result.data)
-    //   }
-    // }).catch((err) => {
-    // })
+    this.$store.dispatch('user/GetUsersMe');
   }
 });
 
@@ -5496,7 +5539,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n.image {\n  width: 100%;\n  display: block;\n}\n", ""]);
 
 // exports
 
@@ -68660,9 +68703,92 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "app-container documentation-container" }, [
-    _vm._v("\n  " + _vm._s(_vm.user) + "\n")
-  ])
+  return _c(
+    "div",
+    { staticClass: "app-container documentation-container" },
+    [
+      _c(
+        "ElRow",
+        { attrs: { type: "flex", justify: "space-between" } },
+        [
+          _c(
+            "ElCol",
+            { attrs: { span: 10 } },
+            [
+              _c("ElCard", { attrs: { "body-style": { padding: "0px" } } }, [
+                _c("img", {
+                  staticClass: "image",
+                  attrs: { src: _vm.user.avatar_big }
+                }),
+                _vm._v(" "),
+                _c("div", { staticStyle: { padding: "14px" } }, [
+                  _c("span", [_vm._v(" " + _vm._s(_vm.user.full_name))]),
+                  _vm._v(" "),
+                  _c("p", {
+                    domProps: { innerHTML: _vm._s(_vm.user.about_renderred) }
+                  })
+                ])
+              ])
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "ElCol",
+            { attrs: { span: 10 } },
+            [
+              _c("ElCard", { attrs: { "body-style": { padding: "0px" } } }, [
+                _c(
+                  "div",
+                  { staticStyle: { padding: "14px" } },
+                  [
+                    _c("span", [_vm._v("統計")]),
+                    _vm._v(" "),
+                    _c(
+                      "ElRow",
+                      { attrs: { type: "flex", justify: "center" } },
+                      [
+                        _c("ElButton", { attrs: { round: "" } }, [
+                          _vm._v("\n              圆角按钮\n            ")
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "ElRow",
+                      { attrs: { type: "flex", justify: "center" } },
+                      [
+                        _c("ElButton", { attrs: { round: "" } }, [
+                          _vm._v("\n              圆角按钮\n            ")
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "ElRow",
+                      { attrs: { type: "flex", justify: "center" } },
+                      [
+                        _c("ElButton", { attrs: { round: "" } }, [
+                          _vm._v("\n              圆角按钮\n            ")
+                        ])
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -84369,14 +84495,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************!*\
   !*** ./resources/js/views/user/Index.vue ***!
   \*******************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Index_vue_vue_type_template_id_38b630ad___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Index.vue?vue&type=template&id=38b630ad& */ "./resources/js/views/user/Index.vue?vue&type=template&id=38b630ad&");
 /* harmony import */ var _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Index.vue?vue&type=script&lang=js& */ "./resources/js/views/user/Index.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Index.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/user/Index.vue?vue&type=style&index=0&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Index_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _Index_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Index.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/user/Index.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -84408,7 +84535,7 @@ component.options.__file = "resources/js/views/user/Index.vue"
 /*!********************************************************************!*\
   !*** ./resources/js/views/user/Index.vue?vue&type=script&lang=js& ***!
   \********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
