@@ -1,5 +1,6 @@
 # Plurk Analytics
 
-## 需求說明
+## Feature
 
 -   Plurk 登入
+-   Plurk Bot
