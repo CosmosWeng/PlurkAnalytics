@@ -11,6 +11,12 @@ const mix = require('laravel-mix')
 |
  */
 
+mix.browserSync({
+  host: '192.168.10.10',
+  proxy: 'plurk.test',
+  open: false
+})
+
 mix.webpackConfig({
   resolve: {
     alias: {

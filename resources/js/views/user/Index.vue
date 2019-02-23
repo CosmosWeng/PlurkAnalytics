@@ -4,7 +4,7 @@
       type="flex"
       justify="space-between"
     >
-      <ElCol :span="10">
+      <ElCol :span="12">
         <ElCard :body-style="{ padding: '0px' }">
           <img
             :src="user.avatar_big"
@@ -21,29 +21,39 @@
           <div style="padding: 14px;">
             <span>統計</span>
 
-            <ElRow
-              type="flex"
-              justify="center"
-            >
-              <ElButton round>
-                圆角按钮
+            <ElRow>
+              <ElButton
+                round
+                @click="getReport"
+              >
+                開始互動分析
               </ElButton>
             </ElRow>
-            <ElRow
-              type="flex"
-              justify="center"
-            >
-              <ElButton round>
-                圆角按钮
-              </ElButton>
-            </ElRow>
-            <ElRow
-              type="flex"
-              justify="center"
-            >
-              <ElButton round>
-                圆角按钮
-              </ElButton>
+
+            <ElRow justify="center">
+              <ElProgress
+                :text-inside="true"
+                :stroke-width="18"
+                :percentage="70"
+              />
+              <ElProgress
+                :text-inside="true"
+                :stroke-width="18"
+                :percentage="80"
+                color="rgba(142, 113, 199, 0.7)"
+              />
+              <ElProgress
+                :text-inside="true"
+                :stroke-width="18"
+                :percentage="100"
+                status="success"
+              />
+              <ElProgress
+                :text-inside="true"
+                :stroke-width="18"
+                :percentage="50"
+                status="exception"
+              />
             </ElRow>
           </div>
         </ElCard>
@@ -67,7 +77,14 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('user/GetUsersMe')
+    if (localStorage.getObject('r')) {
+      this.$store.dispatch('user/GetUsersMe')
+    }
+  },
+  methods: {
+    getReport() {
+      this.$store.dispatch('user/GetInteractiveReport')
+    }
   },
 }
 </script>

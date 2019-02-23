@@ -11,12 +11,17 @@ import UserIndex from '@views/user/Index'
 import FriendList from '@views/friend/List'
 
 const routes = [
-  { path: '/', component: Layout, redirect: '/user/info' },
+  { path: '/', component: Layout, redirect: { name: 'User' } },
   {
     path: '/user',
     component: Layout,
     redirect: '/user/info',
     children: [
+      {
+        path: 'home',
+        component: UserIndex,
+        name: 'UserHome'
+      },
       {
         path: 'info',
         component: UserIndex,
@@ -38,6 +43,13 @@ const routes = [
     ]
   },
 
+  {
+    path: '/logout',
+    redirect: (to, from, next) => {
+      localStorage.clear()
+      return '/user/home'
+    }
+  },
   {
     path: '/login',
     redirect: (to, from, next) => {
@@ -64,17 +76,16 @@ const routes = [
       getAccessToken(query).then(function(result) {
         if (result.hasOwnProperty('data')) {
           localStorage.setObject('r', result.data.r)
-          // localStorage.setObject('user', result.data.user)
         }
+        next({ path: '/' })
       })
-
-      next({ path: '/' })
     }
   },
   { path: '*', redirect: '/' }
 ]
 
 export default new Router({
+  base: '/',
   mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: routes

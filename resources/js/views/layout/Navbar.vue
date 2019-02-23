@@ -18,11 +18,21 @@
     </ElMenuItem>
 
     <ElMenuItem
+      v-if="Object.keys(user).length === 0"
       index="3"
       style="float: right;"
       :route="{'path':'/login'}"
     >
       Login
+    </ElMenuItem>
+    <ElMenuItem
+      v-else
+      index="3"
+      style="float: right;"
+      :route="{'path':'/logout'}"
+      @click="logout"
+    >
+      Logout
     </ElMenuItem>
   </ElMenu>
 </template>
@@ -32,12 +42,13 @@ export default {
   components: {
   },
   computed: {
+    user() {
+      return this.$store.state.user.info
+    }
   },
   methods: {
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
-        // location.reload() // 为了重新实例化vue-router对象 避免bug
-      })
+      this.$store.commit('user/SET_ME', {})
     }
   }
 }
