@@ -17,6 +17,12 @@ service.interceptors.request.use(
     //   // 讓每個請求攜帶token-- ['X-Token']為自定義key 請根據實際情況自行修改
     //   config.headers['X-Token'] = getToken()
     // }
+    if (localStorage.getObject('token')) {
+      let token = localStorage.getObject('token')
+
+      config.headers['Authorization'] = 'Bearer ' + token
+    }
+
     return config
   },
   error => {

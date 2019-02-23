@@ -18,7 +18,7 @@ class User extends Model
 {
     use SoftDeletes;
 
-    public $table        = 'users';
+    public $table = 'users';
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -26,10 +26,10 @@ class User extends Model
     protected $dates = ['deleted_at'];
 
     public $fillable = [
-        'user_id',
-        'privacy',
-        'token',
-        'secret'
+        'name',
+        'email',
+        'password',
+        'api_token',
     ];
 
     /**
@@ -38,11 +38,11 @@ class User extends Model
      * @var array
      */
     protected $casts = [
-        'id'      => 'integer',
-        'user_id' => 'integer',
-        'privacy' => 'string',
-        'token'   => 'string',
-        'secret'  => 'string'
+        'id'            => 'integer',
+        'name'          => 'string',
+        'email'         => 'string',
+        'password'      => 'string',
+        'api_token'     => 'string',
     ];
 
     /**

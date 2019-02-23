@@ -60,6 +60,7 @@ const routes = [
           let r = result.data.r
 
           localStorage.setObject('r', r)
+
           window.location.href = 'https://www.plurk.com/OAuth/authorize?oauth_token=' + r.oauth_token
         }
       })
@@ -75,7 +76,8 @@ const routes = [
       query['oauth_token_secret'] = localStorage.getObject('r')['oauth_token_secret']
       getAccessToken(query).then(function(result) {
         if (result.hasOwnProperty('data')) {
-          localStorage.setObject('r', result.data.r)
+          localStorage.clear()
+          localStorage.setObject('token', result.data.token)
         }
         next({ path: '/' })
       })
