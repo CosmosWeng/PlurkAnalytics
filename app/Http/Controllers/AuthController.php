@@ -76,12 +76,15 @@ class AuthController extends Controller
                         'name'      => $resp['display_name'],
                         'email'     => $this->restToken('user', 30),
                         'password'  => $r['oauth_token_secret'],
-                        'api_token' => $this->restToken('user', 30),
+                        'api_token' => $this->restToken('api', 30),
                     ]);
 
                     //
                     $puser->user_id = $user->id;
                     $puser->save();
+                } else {
+                    $user->api_token = $this->restToken('api', 30);
+                    $user->save();
                 }
             }
 

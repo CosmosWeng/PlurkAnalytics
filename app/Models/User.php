@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     public $table = 'users';
 
@@ -52,4 +52,14 @@ class User extends Model
      */
     public static $rules = [
     ];
+
+    public static function getUserByToken(string $token)
+    {
+        return self::where('api_token', $token)->firstOrFail();
+    }
+
+    public function plurkUser()
+    {
+        return $this->hasOne('App\Models\PlurkUser');
+    }
 }

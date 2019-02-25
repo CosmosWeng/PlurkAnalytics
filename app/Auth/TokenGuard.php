@@ -5,9 +5,9 @@ namespace App\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Auth\GuardHelpers;
-
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
+use App\Utils\Util;
 
 class TokenGuard implements Guard
 {
@@ -34,7 +34,7 @@ class TokenGuard implements Guard
      * @param string $storageKey
      * @return void
      */
-    public function __construct(UserProvider $provider, Request $request, $inputKey = 'api_token', $storageKey = 'api_token')
+    public function __construct(UserProvider $provider, Request $request, $inputKey = 'token', $storageKey = 'api_token')
     {
         $this->user     = null;
         $this->request  = $request;
@@ -51,20 +51,15 @@ class TokenGuard implements Guard
      */
     public function user()
     {
-        // if ($this->loggedOut) {
-        //     return;
-        // }
-
         if (! is_null($this->user)) {
             return $this->user;
         }
 
-        // 用 Token 判斷
         $user  = null;
         $token = $this->getTokenForRequest();
 
+        list($random_str, $guard_str, $expires_in) = Util::decryptToken($token);
         if (! empty($token)) {
-            // run query
             $user = $this->provider->retrieveByCredentials(
                 [$this->storageKey => $token]
             );

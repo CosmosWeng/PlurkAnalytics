@@ -23,9 +23,6 @@ class PlurkAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return [
-            'oauth_token'        => 'required',
-            'oauth_token_secret' => 'required'
-        ];
+        return [];
     }
 }

@@ -9,13 +9,23 @@ use Qlurk;
 
 class PlurkController extends Controller
 {
-    public function __construct(PlurkAPIRequest $request)
+    // public function __construct()
+    // {
+    //     $this->qlurk = new \Qlurk\ApiClient(
+    //         env('PLURK_CONSUMER_KEY'),
+    //         env('PLURK_CONSUMER_SECRET'),
+    //         $request->oauth_token,
+    //         $request->oauth_token_secret
+    //     );
+    // }
+
+    public function qlurk()
     {
         $this->qlurk = new \Qlurk\ApiClient(
             env('PLURK_CONSUMER_KEY'),
-            env('PLURK_CONSUMER_SECRET'),
-            $request->oauth_token,
-            $request->oauth_token_secret
+            env('PLURK_CONSUMER_SECRET')
+            // $request->oauth_token,
+            // $request->oauth_token_secret
         );
     }
 
@@ -31,6 +41,14 @@ class PlurkController extends Controller
     //
     public function getFriendsCompletion(PlurkAPIRequest $request)
     {
+        $user = $request->get('_user');
+
+        $this->qlurk = new \Qlurk\ApiClient(
+            env('PLURK_CONSUMER_KEY'),
+            env('PLURK_CONSUMER_SECRET'),
+            $user->plurkUser->token,
+            $user->plurkUser->secret
+        );
         $resp = $this->qlurk->call('/APP/FriendsFans/getCompletion');
 
         return response()->json([
