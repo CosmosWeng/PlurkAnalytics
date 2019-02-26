@@ -2,53 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlurkAPIRequest;
-use Qlurk;
+use App\Libraries\PlurkAPI;
 
 class PlurkController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->qlurk = new \Qlurk\ApiClient(
-    //         env('PLURK_CONSUMER_KEY'),
-    //         env('PLURK_CONSUMER_SECRET'),
-    //         $request->oauth_token,
-    //         $request->oauth_token_secret
-    //     );
-    // }
-
-    public function qlurk()
+    public function __construct(PlurkAPIRequest $request)
     {
-        $this->qlurk = new \Qlurk\ApiClient(
-            env('PLURK_CONSUMER_KEY'),
-            env('PLURK_CONSUMER_SECRET')
-            // $request->oauth_token,
-            // $request->oauth_token_secret
-        );
+        $this->qlurk = new PlurkAPI($request);
     }
 
-    public function getUsersMe(PlurkAPIRequest $request)
-    {
-        $resp = $this->qlurk->call('/APP/Users/me');
-
-        return response()->json([
-            'code' => 200,
-            'data' => $resp
-        ], 200);
-    }
-    //
     public function getFriendsCompletion(PlurkAPIRequest $request)
     {
-        $user = $request->get('_user');
-
-        $this->qlurk = new \Qlurk\ApiClient(
-            env('PLURK_CONSUMER_KEY'),
-            env('PLURK_CONSUMER_SECRET'),
-            $user->plurkUser->token,
-            $user->plurkUser->secret
-        );
         $resp = $this->qlurk->call('/APP/FriendsFans/getCompletion');
 
         return response()->json([
