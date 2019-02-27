@@ -1,94 +1,99 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
+// detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
+
 Vue.use(Router)
 
-import { getToken, getAccessToken } from '@api/login'
-import store from '../store'
+/* Layout */
+import Layout from '../views/layout/Layout'
 
-import Layout from '@views/layout/Layout'
-import UserIndex from '@views/user/Index'
-import FriendList from '@views/friend/List'
+/**
+* hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
+* alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
+*                                if not set alwaysShow, only more than one route under the children
+*                                it will becomes nested mode, otherwise not show the root menu
+* redirect: noredirect           if `redirect:noredirect` will no redirect in the breadcrumb
+* name:'router-name'             the name is used by <keep-alive> (must set!!!)
+* meta : {
+    title: 'title'               the name show in subMenu and breadcrumb (recommend set)
+    icon: 'svg-name'             the icon show in the sidebar
+    breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
+  }
+**/
+import login from '@/views/login/index'
+import e404 from '@/views/404'
+import dashboard from '@/views/dashboard/index'
 
-const routes = [
-  { path: '/', component: Layout, redirect: { name: 'User' } },
+export const constantRouterMap = [
+  { path: '/login', component: login, hidden: true },
+  { path: '/404', component: e404, hidden: true },
+
   {
-    path: '/user',
+    path: '/',
     component: Layout,
-    redirect: '/user/info',
+    redirect: '/dashboard',
+    name: 'Dashboard',
+    hidden: true,
     children: [
       {
-        path: 'home',
-        component: UserIndex,
-        name: 'UserHome'
-      },
+        path: 'dashboard',
+        component: dashboard
+      }
+    ]
+  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
       {
-        path: 'info',
-        component: UserIndex,
-        name: 'User'
+        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },
 
-  {
-    path: '/friend',
-    component: Layout,
-    redirect: '/friend/list',
-    children: [
-      {
-        path: 'list',
-        component: FriendList,
-        name: 'FriendList'
-      }
-    ]
-  },
-
-  {
-    path: '/logout',
-    redirect: (to, from, next) => {
-      localStorage.clear()
-      return '/user/home'
-    }
-  },
-  {
-    path: '/login',
-    redirect: (to, from, next) => {
-      localStorage.clear()
-
-      getToken(to.query).then(function(result) {
-        if (result.hasOwnProperty('data')) {
-          let r = result.data.r
-
-          localStorage.setObject('r', r)
-
-          window.location.href = 'https://www.plurk.com/OAuth/authorize?oauth_token=' + r.oauth_token
-        }
-      })
-
-      return '/'
-    }
-  },
-  {
-    path: '/login/callback',
-    beforeEnter: (to, from, next) => {
-      let query = to.query
-
-      query['oauth_token_secret'] = localStorage.getObject('r')['oauth_token_secret']
-      getAccessToken(query).then(function(result) {
-        if (result.hasOwnProperty('data')) {
-          localStorage.clear()
-          localStorage.setObject('token', result.data.token)
-        }
-        next({ path: '/' })
-      })
-    }
-  },
-  { path: '*', redirect: '/' }
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
   base: '/',
   mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
-  routes: routes
+  routes: constantRouterMap
 })

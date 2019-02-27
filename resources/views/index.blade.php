@@ -23,12 +23,12 @@
 
 <style>
         [v-cloak] { display: none;}
-    </style>
+</style>
 
 </head>
 
 <body>
-    <div v-cloak id="app"></div>
+    <div id="app"></div>
 </body>
 
 <!-- Scripts -->

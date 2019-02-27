@@ -1,5 +1,5 @@
-import { getFriends, getUsersMe } from '@api/user'
-import { getInteractiveReport } from '@api/analyse'
+import { getFriends, getUsersMe } from '@/api/user'
+import { getInteractiveReport } from '@/api/analyse'
 export default {
   GetFriends({ commit, state }) {
     return new Promise((resolve, reject) => {

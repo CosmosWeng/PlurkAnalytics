@@ -6,19 +6,22 @@
 
 require('./bootstrap')
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the body of the page. From here, you may begin adding components to
- * the application, or feel free to tweak this setup for your needs.
- */
-import App from './App.vue'
+import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import locale from 'element-ui/lib/locale/lang/en'
 
-import router from './router'
+import '@/styles/index.scss'
+
+import App from './App.vue'
 import store from './store'
+import router from './router'
 
-Vue.use(ElementUI)
+import '@/icons/index' // icon
+// import '@/permission' // permission control
+
+Vue.use(ElementUI, { locale })
+Vue.config.productionTip = false
 
 const app = new Vue({
   el: '#app',
