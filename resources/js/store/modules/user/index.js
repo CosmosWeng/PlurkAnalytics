@@ -1,22 +1,16 @@
 // import state from './state.js'
 // import mutations from './mutations.js'
+import { getToken } from '@/utils/auth'
 import actions from './actions.js'
 import getters from './getters.js'
 
 const state = {
-  data: [],
-  object: {},
-  info: {},
-  friendObjects: {}
+  token: '',
+  name: '',
+  avatar: '',
+  roles: []
 }
-const mutations = {
-  SET_ME(state, data) {
-    state.info = data
-  },
-  SET_FRIENDS(state, data) {
-    state.friendObjects = data
-  }
-}
+const mutations = {}
 
 export default {
   namespaced: true,

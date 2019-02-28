@@ -16,6 +16,7 @@ export default {
   },
   mounted() {
     const isMobile = this.isMobile()
+
     if (isMobile) {
       store.dispatch('ToggleDevice', 'mobile')
       store.dispatch('CloseSideBar', { withoutAnimation: true })
@@ -24,11 +25,13 @@ export default {
   methods: {
     isMobile() {
       const rect = body.getBoundingClientRect()
+
       return rect.width - 1 < WIDTH
     },
     resizeHandler() {
       if (!document.hidden) {
         const isMobile = this.isMobile()
+
         store.dispatch('ToggleDevice', isMobile ? 'mobile' : 'desktop')
 
         if (isMobile) {

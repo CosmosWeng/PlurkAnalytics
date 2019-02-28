@@ -22,24 +22,24 @@ import Layout from '../views/layout/Layout'
     breadcrumb: false            if false, the item will hidden in breadcrumb(default is true)
   }
 **/
-import login from '@/views/login/index'
 import e404 from '@/views/404'
 import dashboard from '@/views/dashboard/index'
 
+import login from './login'
 export const constantRouterMap = [
-  { path: '/login', component: login, hidden: true },
   { path: '/404', component: e404, hidden: true },
+  login,
 
   {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
     name: 'Dashboard',
-    hidden: true,
     children: [
       {
         path: 'dashboard',
-        component: dashboard
+        component: dashboard,
+        meta: { title: 'Home', icon: 'dashboard' }
       }
     ]
   },
