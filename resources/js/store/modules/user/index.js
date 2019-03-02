@@ -5,12 +5,61 @@ import actions from './actions.js'
 import getters from './getters.js'
 
 const state = {
-  token: '',
+  user: '',
+  status: '',
+  code: '',
+  token: getToken(),
   name: '',
+  full_name: '',
+  join_date: '',
+  karma: '',
+  timezone: '',
   avatar: '',
-  roles: []
+  avatar_big: '',
+  introduction: '',
+  roles: [],
+  setting: {
+    articlePlatform: []
+  }
 }
-const mutations = {}
+const mutations = {
+  SET_CODE: (state, code) => {
+    state.code = code
+  },
+  SET_TOKEN: (state, token) => {
+    state.token = token
+  },
+  SET_INTRODUCTION: (state, introduction) => {
+    state.introduction = introduction
+  },
+  SET_SETTING: (state, setting) => {
+    state.setting = setting
+  },
+  SET_STATUS: (state, status) => {
+    state.status = status
+  },
+  SET_NAME: (state, name) => {
+    state.name = name
+  },
+  SET_AVATAR: (state, avatar) => {
+    state.avatar = avatar
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_PLURK_USER: (state, data) => {
+    state.user = data
+    state.name = data.display_name
+    state.avatar = data.avatar_medium
+    state.avatar_big = data.avatar_big
+    state.introduction = data.about
+
+    state.full_name = data.full_name
+    state.join_date = data.join_date
+    state.karma = data.karma
+    state.timezone = data.timezone
+  }
+}
 
 export default {
   namespaced: true,

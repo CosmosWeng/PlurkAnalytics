@@ -1,4 +1,5 @@
 import { getToken, getAccessToken } from '@/api/login'
+import store from '../store'
 
 export default {
   path: '/login',
@@ -11,10 +12,10 @@ export default {
 
         getToken(to.query).then(function(result) {
           if (result.hasOwnProperty('data')) {
-            let r = result.data.r
+            let data = result.data
 
-            localStorage.setObject('r', r)
-            window.location.href = 'https://www.plurk.com/OAuth/authorize?oauth_token=' + r.oauth_token
+            localStorage.setObject('r', data.r)
+            window.location.href = 'https://www.plurk.com/OAuth/authorize?oauth_token=' + data.r.oauth_token
           }
         })
 
@@ -30,7 +31,14 @@ export default {
         getAccessToken(query).then(function(result) {
           localStorage.clear()
           if (result.hasOwnProperty('data')) {
-            localStorage.setObject('token', result.data.token)
+            let data = result.data
+
+            localStorage.setObject('token', data.token)
+            store.commit('user/SET_TOKEN', data.token)
+
+            if (data.hasOwnProperty('user')) {
+              store.commit('user/SET_PLURK_USER', data.user)
+            }
           }
         })
         next({ path: '/' })

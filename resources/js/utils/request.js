@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-// import store from '@/store'
+import store from '@/store'
 // import { getToken } from '@/utils/auth'
 
 // create an axios instance
@@ -20,6 +20,7 @@ service.interceptors.request.use(
     if (localStorage.getObject('token')) {
       let token = localStorage.getObject('token')
 
+      store.commit('user/SET_TOKEN', token)
       config.headers['Authorization'] = 'Bearer ' + token
     }
 

@@ -15,7 +15,6 @@
         登入
       </el-button>
       <el-dialog
-        title="Login"
         :visible.sync="centerDialogVisible"
         :fullscreen="true"
         center

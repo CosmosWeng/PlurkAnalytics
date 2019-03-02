@@ -26,10 +26,10 @@ import e404 from '@/views/404'
 import dashboard from '@/views/dashboard/index'
 
 import login from './login'
+import plurk from './plurk'
 export const constantRouterMap = [
   { path: '/404', component: e404, hidden: true },
   login,
-
   {
     path: '/',
     component: Layout,
@@ -43,6 +43,7 @@ export const constantRouterMap = [
       }
     ]
   },
+  plurk,
   // {
   //   path: '/example',
   //   component: Layout,
@@ -77,16 +78,16 @@ export const constantRouterMap = [
   //     }
   //   ]
   // },
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
   { path: '*', redirect: '/404', hidden: true }
 ]

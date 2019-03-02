@@ -22,12 +22,7 @@ export default {
 `
     }
   },
-  computed: {
-    ...mapGetters([
-      'name',
-      'roles'
-    ])
-  },
+  computed: {},
   mounted() {
     this.initEditor()
   },

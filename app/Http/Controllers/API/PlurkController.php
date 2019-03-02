@@ -13,6 +13,16 @@ class PlurkController extends Controller
         $this->qlurk = new PlurkAPI($request);
     }
 
+    public function getUsersMe(PlurkAPIRequest $request)
+    {
+        $resp = $this->qlurk->call('/APP/Users/me');
+
+        return response()->json([
+            'code' => 200,
+            'data' => $resp
+        ], 200);
+    }
+
     public function getFriendsCompletion(PlurkAPIRequest $request)
     {
         $resp = $this->qlurk->call('/APP/FriendsFans/getCompletion');

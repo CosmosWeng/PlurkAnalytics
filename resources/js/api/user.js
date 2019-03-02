@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
-export function getUsersMe() {
+export function getUserInfo() {
   return request({
     url: '/plurk/getMe',
     method: 'get'
   })
 }
 
-export function getFriends() {
+export function getFriendList() {
   return request({
     url: '/plurk/getFriends',
     method: 'get'
