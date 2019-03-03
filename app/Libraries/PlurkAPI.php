@@ -27,6 +27,15 @@ class PlurkAPI extends ApiClient
         }
     }
 
+    public function responseAdd($plurk_id, $content, $qualifier)
+    {
+        return $this->call('/APP/Responses/responseAdd', [
+            'plurk_id'      => (string)$plurk_id,
+            'content'       => (string)$content,
+            'qualifier'     => (string)$qualifier
+        ]);
+    }
+
     public function call($path, $params = [])
     {
         try {

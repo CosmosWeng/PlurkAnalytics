@@ -26,7 +26,7 @@ class CreatePlurkUsersTable extends Migration
             $table->timestamp('updated_at')->useCurrent();
             $table->timestamp('created_at')->useCurrent();
 
-            $table->index(['user_id', 'uuid']);
+            $table->unique(['user_id', 'uuid']);
             $table->softDeletes();
         });
     }

@@ -69,7 +69,7 @@ class PlurkBotBaseJob implements ShouldQueue
         }
     }
 
-    public function responseAdd($plurk_id, $content, $qualifier)
+    public function responseAdd($plurk_id, $content, $qualifier = 'says')
     {
         $resp = $this->qlurk->call('/APP/Responses/responseAdd', [
             'plurk_id'      => (string)$plurk_id,
@@ -84,7 +84,7 @@ class PlurkBotBaseJob implements ShouldQueue
     {
         $resp = $this->qlurk->call('/APP/FriendsFans/setFollowing', [
             'user_id'     => (string)$user_id,
-            'follow'      => $follow,
+            'follow'      => (string)$follow,
         ]);
 
         return $resp;
@@ -94,8 +94,8 @@ class PlurkBotBaseJob implements ShouldQueue
     {
         $resp = $this->qlurk->call('/APP/Timeline/getPlurk', [
             'plurk_id'     => (string)$plurk_id,
-            'minimal_user' => true,
-            'minimal_data' => true
+            'minimal_user' => (string)true,
+            'minimal_data' => (string)true
         ]);
 
         return $resp;
