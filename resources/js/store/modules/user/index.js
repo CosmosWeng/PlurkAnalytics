@@ -10,6 +10,7 @@ const state = {
   code: '',
   token: getToken(),
   name: '',
+  plurk_uuid: '',
   full_name: '',
   join_date: '',
   karma: '',
@@ -17,6 +18,7 @@ const state = {
   avatar: '',
   avatar_big: '',
   introduction: '',
+  friends_count: '',
   roles: [],
   setting: {
     articlePlatform: []
@@ -54,10 +56,12 @@ const mutations = {
     state.avatar_big = data.avatar_big
     state.introduction = data.about
 
+    state.plurk_uuid = data.id
     state.full_name = data.full_name
     state.join_date = data.join_date
     state.karma = data.karma
     state.timezone = data.timezone
+    state.friends_count = data.friends_count
   }
 }
 

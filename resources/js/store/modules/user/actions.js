@@ -1,4 +1,6 @@
-import { getUserInfo } from '@/api/user'
+import { getUserInfo, logout } from '@/api/user'
+import { removeToken } from '@/utils/auth'
+
 export default {
   GetUserInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
@@ -16,11 +18,9 @@ export default {
           } else {
             // reject('getInfo: roles must be a non-null array!')
           }
-          console.log(data)
 
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
+          commit('SET_PLURK_USER', data)
+
           resolve(response)
         }).
         catch(error => {
@@ -31,16 +31,10 @@ export default {
   // 登出
   LogOut({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).
-        then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          removeToken()
-          resolve()
-        }).
-        catch(error => {
-          reject(error)
-        })
+      commit('SET_TOKEN', '')
+      commit('SET_ROLES', [])
+      removeToken()
+      resolve()
     })
   }
 }

@@ -4,16 +4,19 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PlurkAPIRequest;
+use App\Libraries\PlurkAPI;
 
 class PlurkAnalyticController extends Controller
 {
+    public function __construct(PlurkAPIRequest $request)
+    {
+        $this->qlurk = new PlurkAPI($request);
+    }
+
     public function getReportAll(PlurkAPIRequest $request)
     {
-        # code...
-        $PlurkController  = new PlurkController($request);
-        $plurks           = $PlurkController->myPlurks();
-
-        $user  = [
+        $plurks           = $this->qlurk->getMyPlurkByMinTime();
+        $user             = [
             'favorer' => 0,
             'replurk' => 0,
         ];
@@ -49,12 +52,16 @@ class PlurkAnalyticController extends Controller
                 }
             }
         }
-
-        return [
+        $data =  [
             'users'            => $users,
             'favorite_count'   => $favorite_count,
             'replurkers_count' => $replurkers_count,
             'response_count'   => $response_count
         ];
+
+        return response()->json([
+            'code' => 200,
+            'data' => $data
+        ], 200);
     }
 }

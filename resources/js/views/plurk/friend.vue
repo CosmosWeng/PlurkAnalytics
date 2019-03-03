@@ -1,98 +1,84 @@
 <template>
   <div class="app-container">
+    <el-button
+      class=""
+      type="primary"
+      icon="el-icon-tickets"
+      @click="analyseFriend"
+    >
+      分析好友
+    </el-button>
+
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="rendorList"
       border
       fit
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column
+      <!-- <el-table-column
         align="center"
         label="ID"
-        width="80"
       >
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
       <el-table-column
-        width="180px"
         align="center"
-        label="Date"
+        label="Name"
       >
         <template slot-scope="scope">
-          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ scope.row.display_name }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        width="120px"
         align="center"
-        label="Author"
+        label="Like數"
+        width="80px"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+        <template
+          v-if="scope.row.hasOwnProperty('favorer')"
+          slot-scope="scope"
+        >
+          <span>{{ scope.row.favorer }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
-        width="100px"
-        label="Importance"
+        align="center"
+        label="分享數"
+        width="80px"
       >
-        <template slot-scope="scope">
-          <svg-icon
-            v-for="n in +scope.row.importance"
-            :key="n"
-            icon-class="star"
-            class="meta-item__icon"
-          />
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        class-name="status-col"
-        label="Status"
-        width="110"
-      >
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">
-            {{ scope.row.status }}
-          </el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column
-        min-width="300px"
-        label="Title"
-      >
-        <template slot-scope="scope">
-          <router-link
-            :to="'/example/edit/'+scope.row.id"
-            class="link-type"
-          >
-            <span>{{ scope.row.title }}</span>
-          </router-link>
+        <template
+          v-if="scope.row.hasOwnProperty('replurk')"
+          slot-scope="scope"
+        >
+          <span>{{ scope.row.replurk }}</span>
         </template>
       </el-table-column>
 
       <el-table-column
         align="center"
         label="Actions"
-        width="120"
+        min-width="120"
       >
         <template slot-scope="scope">
-          <router-link :to="'/example/edit/'+scope.row.id">
+          <a
+            :href="'https://www.plurk.com/'+scope.row.nick_name"
+            target="_blank"
+          >
             <el-button
               type="primary"
               size="small"
-              icon="el-icon-edit"
+              icon="el-icon-view"
             >
-              Edit
+              前往
             </el-button>
-          </router-link>
+          </a>
         </template>
       </el-table-column>
     </el-table>
@@ -108,44 +94,74 @@
 </template>
 
 <script>
-// import { fetchList } from '@/api/article'
+import { mapGetters } from 'vuex'
+import { fetchFriendList } from '@/api/user'
+import { getInteractiveReport } from '@/api/analyse'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'ArticleList',
+  name: 'FriendList',
   components: { Pagination },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-
-      return statusMap[status]
-    }
-  },
+  filters: {},
   data() {
     return {
-      list: null,
+      list: [],
       total: 0,
       listLoading: true,
       listQuery: {
         page: 1,
         limit: 20
+      },
+      analyseFriendData: {
+        users: {},
+        favorite_count: 0,
+        replurkers_count: 0,
+        response_count: 0
       }
     }
   },
+  computed: {
+    ...mapGetters({
+      friends_count: "user/friends_count",
+      plurk_uuid: "user/plurk_uuid"
+    }),
+    rendorList() {
+      let list = [],
+          users = this.analyseFriendData.users
+
+      for (let index = 0; index < this.list.length; index++) {
+        const element = this.list[index]
+
+        if (users.hasOwnProperty(element.id)) {
+          // element = Object.assign(element, users[element.id])
+          element.favorer = users[element.id].favorer
+          element.replurk = users[element.id].replurk
+        } else {
+          element.favorer = 'Null'
+          element.replurk = 'Null'
+        }
+        list.push(element)
+      }
+
+      return list
+    }
+  },
   created() {
-    // this.getList()
+    this.getList()
   },
   methods: {
     getList() {
       this.listLoading = true
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.total = response.data.total
+      this.listQuery.plurk_uuid = this.plurk_uuid
+      fetchFriendList(this.listQuery).then(response => {
+        this.list = response.data
+        this.total = this.friends_count
         this.listLoading = false
+      })
+    },
+    analyseFriend() {
+      getInteractiveReport().then(response => {
+        this.analyseFriendData = response.data
       })
     },
     handleSizeChange(val) {

@@ -1,8 +1,6 @@
 import store from '../store'
-
 import Layout from '../views/layout/Layout'
 import { Info, Friend } from '@/views/plurk'
-import { getUserInfo } from '@/api/user'
 
 export default {
   path: '/plurk',
@@ -12,17 +10,14 @@ export default {
   meta: { title: 'Plurk', icon: 'plurk' },
   beforeEnter: (to, from, next) => {
     //
-    getUserInfo().then(function(result) {
-      if (result.hasOwnProperty('data')) {
-        let data = result.data
-
-        store.commit('user/SET_PLURK_USER', data)
-
+    store.
+      dispatch('user/GetUserInfo').
+      then(function(res) {
         next()
-      } else {
-        next({ path: '/' })
-      }
-    })
+      }).
+      catch(err => {
+        next({ path: '/', replace: true })
+      })
   },
 
   children: [

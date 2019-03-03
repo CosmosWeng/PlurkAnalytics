@@ -129,10 +129,10 @@ export default {
     margin-bottom: 10px;
     font-size: 14px;
   }
-  @media only screen and (max-width: 1510px) {
-    .mallki-text {
-      display: none;
-    }
-  }
+  // @media only screen and (max-width: 720px) {
+  //   .mallki-text {
+  //     display: none;
+  //   }
+  // }
 }
 </style>

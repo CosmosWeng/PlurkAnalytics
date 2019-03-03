@@ -6,7 +6,7 @@ import store from '@/store'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.MIX_BASE_API, // api 的 base_url
-  timeout: 5000 // request timeout
+  timeout: 50000 // request timeout
 })
 
 // request interceptor
@@ -45,32 +45,30 @@ service.interceptors.response.use(
   response => {
     const res = response.data
 
-    // if (res.code !== 20000) {
-    //   Message({
-    //     message: res.message,
-    //     type: 'error',
-    //     duration: 5 * 1000
-    //   })
-    //   // 50008:非法的token; 50012:其他客戶端登錄了;  50014:Token 過期了;
-    //   if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-    //     // 請自行在引入 MessageBox
-    //     // import { Message, MessageBox } from 'element-ui'
-    //     MessageBox.confirm('你已被登出，可以取消繼續留在該頁面，或者重新登錄', '確定登出', {
-    //       confirmButtonText: '重新登錄',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       store.dispatch('FedLogOut').then(() => {
-    //         location.reload() // 為了重新實例化vue-router對象 避免bug
-    //       })
-    //     })
-    //   }
-    //   return Promise.reject('error')
-    // } else {
-    //   return response.data
-    // }
-
-    return response.data
+    if (res.code !== 200) {
+      Message({
+        message: res.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      // 50008:非法的token; 50012:其他客戶端登錄了;  50014:Token 過期了;
+      // if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
+      //   // 請自行在引入 MessageBox
+      //   // import { Message, MessageBox } from 'element-ui'
+      //   MessageBox.confirm('你已被登出，可以取消繼續留在該頁面，或者重新登錄', '確定登出', {
+      //     confirmButtonText: '重新登錄',
+      //     cancelButtonText: '取消',
+      //     type: 'warning'
+      //   }).then(() => {
+      //     store.dispatch('FedLogOut').then(() => {
+      //       location.reload() // 為了重新實例化vue-router對象 避免bug
+      //     })
+      //   })
+      // }
+      return Promise.reject('error')
+    } else {
+      return response.data
+    }
   },
   error => {
     console.log('err' + error) // for debug

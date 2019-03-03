@@ -27,7 +27,7 @@ class AuthController extends Controller
         // $token       = $r['oauth_token'];
         // $tokenSecret = $r['oauth_token_secret'];
 
-        return response()->json(['data' => $data], 200);
+        return response()->json(['code' => 200, 'data' => $data], 200);
     }
 
     public function getAccessToken(Request $request)
@@ -94,7 +94,7 @@ class AuthController extends Controller
             ];
         }
 
-        return response()->json(['data' => $data], 200);
+        return response()->json(['code' => 200, 'data' => $data], 200);
     }
 
     public function restToken($guard, $day = 30, $str_n = 10)

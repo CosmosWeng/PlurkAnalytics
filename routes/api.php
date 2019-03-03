@@ -19,9 +19,8 @@ use Illuminate\Http\Request;
 
 Route::group(['prefix' => 'plurk'], function () {
     Route::get('getFriends', 'PlurkController@getFriendsCompletion');
+    Route::get('getFriendsByOffset', 'PlurkController@getFriendsByOffset');
     Route::get('getMe', 'PlurkController@getUsersMe');
-
-    Route::get('getMePlurks', 'PlurkController@getMyPlurks');
 });
 
 Route::group(['prefix' => 'analyse'], function () {

@@ -7,9 +7,17 @@ export function getUserInfo() {
   })
 }
 
-export function getFriendList() {
+export function fetchFriendList(query) {
   return request({
-    url: '/plurk/getFriends',
-    method: 'get'
+    url: '/plurk/getFriendsByOffset',
+    method: 'get',
+    params: query
+  })
+}
+
+export function logout() {
+  return request({
+    url: '/login/logout',
+    method: 'post'
   })
 }

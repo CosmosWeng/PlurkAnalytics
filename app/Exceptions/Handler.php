@@ -65,13 +65,17 @@ class Handler extends ExceptionHandler
             // LogError::create($log);
 
             // 特殊情況
-            if ($exception instanceof ValidationException) {
-                return Response::json(ResponseUtil::makeResponse(head(head($exception->errors()))), 403);
-            }
+            // if ($exception instanceof ValidationException) {
+            //     return Response::json(ResponseUtil::makeResponse(head(head($exception->errors()))), 403);
+            // }
 
-            if (! config('app.debug')) {
-                return Response::json(ResponseUtil::makeResponse(__('error.undefined')), 500);
-            }
+            // if (! config('app.debug')) {
+            //     return Response::json(ResponseUtil::makeResponse(__('error.undefined')), 500);
+            // }
+        }
+
+        if ($exception instanceof UserErrorException) {
+            return $exception->render($request, $exception);
         }
 
         return parent::render($request, $exception);
