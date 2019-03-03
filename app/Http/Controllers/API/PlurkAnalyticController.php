@@ -10,7 +10,7 @@ class PlurkAnalyticController extends Controller
 {
     public function __construct(PlurkAPIRequest $request)
     {
-        $this->qlurk = new PlurkAPI($request);
+        $this->qlurk = new PlurkAPI($request->get('_user'));
     }
 
     public function getReportAll(PlurkAPIRequest $request)

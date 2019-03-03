@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\PlurkBotBaseJob;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Job Plurk Bot
+        $schedule->job(new PlurkBotBaseJob)->everyMinute();
+        // $schedule->job(new PlurkBotBaseJob)->everyFiveMinutes();
     }
 
     /**
