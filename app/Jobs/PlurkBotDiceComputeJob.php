@@ -42,33 +42,37 @@ class PlurkBotDiceComputeJob implements ShouldQueue
         $plurks = DB::select('select * from plurks left join (select plurk_id as i ,mission_code from plurk_bot_mission_logs) as t1 ON plurks.plurk_id=t1.i where t1.mission_code = :mission_code ', ['mission_code' => 'one_dice']);
 
         foreach ($plurks as $plurk) {
-            $users     = [];
-            $options   = explode(' ', $plurk->content_raw);
-            $responses = $this->getResponsesById($plurk->plurk_id);
+            $users                                  = [];
+            list($tagText, $diceText, $count)       = array_pad(explode(' ', $plurk->content_raw), 3, 1);
+            $responses                              = $this->getResponsesById($plurk->plurk_id);
 
-            if (isset($options[2]) && $responses['response_count'] >= $options[2]) {
-                $log = PlurkBotMissionLog::Create([
-                            'plurk_id'        => $plurk->plurk_id,
-                            'mission_code'    => 'dice_compute'
-                        ]);
+            if ($count && (int)$responses['response_count'] >= (int)$count) {
+                try {
+                    $log = PlurkBotMissionLog::Create([
+                                'plurk_id'        => $plurk->plurk_id,
+                                'mission_code'    => 'dice_compute'
+                            ]);
 
-                if ($log) {
-                    $master_count = $this->countRndNum($plurk->content);
-                    // ComputeJob
-                    foreach ($responses['responses'] as $response) {
-                        $rndnum_count = $this->countRndNum($response['content']);
-                        $user_id      = $response['user_id'];
-                        if ($master_count < $rndnum_count) {
-                            $users[$user_id] = '@'.$responses['friends'][$user_id]['nick_name'];
+                    if ($log) {
+                        $master_count = $this->countRndNum($plurk->content);
+                        // ComputeJob
+                        foreach ($responses['responses'] as $response) {
+                            $rndnum_count = $this->countRndNum($response['content']);
+                            $user_id      = $response['user_id'];
+                            if ($master_count < $rndnum_count) {
+                                $users[$user_id] = '@'.$responses['friends'][$user_id]['nick_name'];
+                            }
                         }
+                        //
+                        if (count($users) > 0) {
+                            $content = implode(' ', $users);
+                        } else {
+                            $content = '@'.$plurk->nick_name;
+                        }
+                        $this->qlurk->responseAdd($plurk->plurk_id, 'Winner: '.$content, 'says');
                     }
-                    //
-                    if (count($users) > 0) {
-                        $content = implode(' ', $users);
-                    } else {
-                        $content = '@'.$plurk->nick_name;
-                    }
-                    $this->qlurk->responseAdd($plurk->plurk_id, 'Winner: '.$content, 'says');
+                } catch (\Throwable $th) {
+                    //throw $th;
                 }
             }
         }
