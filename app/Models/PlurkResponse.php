@@ -33,7 +33,6 @@ class PlurkResponse extends Model
         'response_id',
         'qualifier',
         'content',
-        'content_raw',
         'posted'
     ];
 

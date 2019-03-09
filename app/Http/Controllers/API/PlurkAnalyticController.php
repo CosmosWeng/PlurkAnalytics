@@ -15,7 +15,7 @@ class PlurkAnalyticController extends Controller
 
     public function getReportAll(PlurkAPIRequest $request)
     {
-        $plurks           = $this->qlurk->getMyPlurkByMinTime();
+        $plurks           = $this->qlurk->getPlurkByFilter('my');
         $user             = [
             'favorer' => 0,
             'replurk' => 0,

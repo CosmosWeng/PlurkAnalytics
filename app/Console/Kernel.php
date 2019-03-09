@@ -4,9 +4,10 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Jobs\PlurkBotBaseJob;
-use App\Jobs\PlurkBotLinstenJob;
-use App\Jobs\PlurkBotDiceComputeJob;
+use App\Jobs\PlurkBotJobs\ScanPlurksJob;
+
+use App\Models\User;
+use App\Libraries\PlurkAPI;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,10 +28,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Init
+        $user  = User::find(1);
+        $qlurk = new PlurkAPI($user);
+
         // Job Plurk Bot
-        // $schedule->job(new PlurkBotBaseJob)->everyMinute();
-        // $schedule->job(new PlurkBotLinstenJob)->everyMinute();
-        // $schedule->job(new PlurkBotDiceComputeJob)->everyMinute();
+        $schedule->job(new ScanPlurksJob($user, $qlurk))->everyMinute();
     }
 
     /**

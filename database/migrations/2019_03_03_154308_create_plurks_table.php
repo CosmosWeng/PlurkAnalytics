@@ -17,7 +17,7 @@ class CreatePlurksTable extends Migration
             $table->increments('id');
             $table->integer('plurk_id')->unique();
             $table->integer('user_id');
-            $table->string('nick_name');
+
             $table->string('qualifier');
 
             $table->text('content')->nullable();

@@ -31,7 +31,6 @@ class Plurk extends Model
         'nick_name',
         'qualifier',
         'content',
-        'content_raw',
         'posted'
     ];
 

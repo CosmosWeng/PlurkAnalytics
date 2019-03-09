@@ -18,6 +18,7 @@ class CreatePlurkBotMissionsTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('code');
+            $table->jsonb('keyword')->nullable();
             $table->integer('sorting');
         });
     }

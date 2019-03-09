@@ -16,6 +16,7 @@ class CreatePlurkBotPlurkMissionTable extends Migration
         Schema::create('plurk_bot_plurk_mission', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('plurk_id')->unique();
+            $table->string('nick_name');
             $table->integer('mission_id')->unique();
             $table->integer('status');
             $table->jsonb('response')->nullable();

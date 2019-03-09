@@ -71,15 +71,18 @@ class PlurkAPI extends ApiClient
         return $resp;
     }
 
-    public function getMyPlurkByMinTime($offset = '')
+    public function getPlurkByFilter($filter = '', $offset = '', $minTime = null)
     {
-        $minTime = time() - (24 * 3600 * 356) ;
         $plurks  = [];
+
+        if (! $minTime) {
+            $minTime = (time() - (24 * 60 * 60));
+        }
 
         $resp = $this->call('/APP/Timeline/getPlurks', [
             'offset'            => $offset,
             'limit'             => 30,
-            'filter'            => 'my',
+            'filter'            => $filter,
             'favorers_detail'   => true,
             'limited_detail'    => true,
             'replurkers_detail' => true,
@@ -88,6 +91,7 @@ class PlurkAPI extends ApiClient
 
         if ($resp['plurks'] && count($resp['plurks']) > 0) {
             $plurks  = array_where($resp['plurks'], function ($value, $key) use ($minTime) {
+                //posted, ex: Thu, 07 Mar 2019 04:16:48 GMT
                 return strtotime($value['posted']) > $minTime;
             });
 
@@ -96,7 +100,7 @@ class PlurkAPI extends ApiClient
 
             if ($firstlurk['posted'] && count($plurks) > 0) {
                 $offset = date('Y-m-d\TH:i:s', strtotime($lastPlurk['posted']));
-                $plurks = array_merge($plurks, $this->getMyPlurkByMinTime($offset));
+                $plurks = array_merge($plurks, $this->getPlurkByFilter($filter, $offset, $minTime));
             }
         }
 
