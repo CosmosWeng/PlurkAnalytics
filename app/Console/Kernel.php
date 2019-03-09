@@ -28,9 +28,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Job Plurk Bot
-        $schedule->job(new PlurkBotBaseJob)->everyMinute();
-        $schedule->job(new PlurkBotLinstenJob)->everyMinute();
-        $schedule->job(new PlurkBotDiceComputeJob)->everyMinute();
+        // $schedule->job(new PlurkBotBaseJob)->everyMinute();
+        // $schedule->job(new PlurkBotLinstenJob)->everyMinute();
+        // $schedule->job(new PlurkBotDiceComputeJob)->everyMinute();
     }
 
     /**

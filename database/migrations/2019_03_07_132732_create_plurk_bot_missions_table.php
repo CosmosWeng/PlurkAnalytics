@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlurksTable extends Migration
+class CreatePlurkBotMissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,12 @@ class CreatePlurksTable extends Migration
      */
     public function up()
     {
-        Schema::create('plurks', function (Blueprint $table) {
+        Schema::create('plurk_bot_missions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('plurk_id')->unique();
-            $table->integer('user_id');
-            $table->string('nick_name');
-            $table->string('qualifier');
-
-            $table->text('content')->nullable();
-
-            $table->timestamp('posted');
+            $table->string('name');
+            $table->string('type');
+            $table->string('code');
+            $table->integer('sorting');
         });
     }
 
@@ -33,6 +29,6 @@ class CreatePlurksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plurks');
+        Schema::dropIfExists('plurk_bot_missions');
     }
 }
