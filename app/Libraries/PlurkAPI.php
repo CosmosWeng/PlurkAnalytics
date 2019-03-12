@@ -95,6 +95,19 @@ class PlurkAPI extends ApiClient
                 return strtotime($value['posted']) > $minTime;
             });
 
+            if ($resp['plurk_users'] && count($resp['plurk_users']) > 0) {
+                $plurks = array_map(function ($value) use ($resp) {
+                    $plurk_users = $resp['plurk_users'];
+                    $owner_id = $value['owner_id'];
+
+                    if (isset($plurk_users[$owner_id])) {
+                        $value['nick_name'] = $plurk_users[$owner_id]['nick_name'];
+                    }
+
+                    return $value;
+                }, $plurks);
+            }
+
             $firstlurk    = array_shift($resp['plurks']);
             $lastPlurk    = array_pop($resp['plurks']);
 

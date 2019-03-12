@@ -18,8 +18,8 @@ class CreatePlurkBotPlurkMissionTable extends Migration
             $table->integer('plurk_id')->unique();
             $table->string('nick_name');
             $table->integer('mission_id')->unique();
-            $table->integer('status');
-            $table->jsonb('response')->nullable();
+            $table->integer('status')->default(1);
+            // $table->jsonb('response')->nullable();
         });
     }
 
