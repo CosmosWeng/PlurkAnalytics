@@ -8,9 +8,6 @@ use App\Jobs\PlurkBotJobs\ScanPlurksJob;
 use App\Jobs\PlurkBotJobs\ScanPlurkMissionJob;
 use App\Jobs\PlurkBotJobs\RegisterUserJob;
 
-use App\Models\User;
-use App\Libraries\PlurkAPI;
-
 class Kernel extends ConsoleKernel
 {
     /**
@@ -32,18 +29,19 @@ class Kernel extends ConsoleKernel
     {
         // Init
         // if (class_exists('User') && class_exists('PlurkAPI')) {
-        $user  = User::find(1);
-        $qlurk = new PlurkAPI($user);
+        // $user  = User::find(1);
+        // $qlurk = new PlurkAPI($user);
         // }
 
-        // $job = new ScanPlurkMissionJob($user, $qlurk);
+        // $job = new ScanPlurkMissionJob();
         // $job->dispatch();
 
+        // ScanPlurkMissionJob::dispatch();
         // RegisterUserJob::dispatch($user, $qlurk);
 
         // Job Plurk Bot
-        // $schedule->job(new ScanPlurksJob($user, $qlurk))->everyMinute();
-        // $schedule->job(new ScanPlurkMissionJob($user, $qlurk))->everyMinute();
+        $schedule->job(new ScanPlurksJob)->everyMinute();
+        $schedule->job(new ScanPlurkMissionJob())->everyMinute();
     }
 
     /**

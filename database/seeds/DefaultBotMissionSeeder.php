@@ -29,18 +29,27 @@ class DefaultBotMissionSeeder extends Seeder
                 'keyword' => 'unregistered',
             ],
             [
-                'name'    => '骰子比大小',
-                'type'    => 'dice',
-                'lang'    => 'zh-TW',
-                'code'    => 'DiceGameJob',
-                'keyword' => '比大小',
+                'name'     => '骰子比大小-結算',
+                'type'     => 'dice',
+                'lang'     => 'zh-TW',
+                'code'     => 'DiceGameResultJob',
+                'keyword'  => '',
+                'children' => [
+                    [
+                        'name'    => '骰子比大小',
+                        'type'    => 'rpg',
+                        'lang'    => 'zh-TW',
+                        'code'    => 'DiceGameJob',
+                        'keyword' => '#比大小',
+                    ],
+                ]
             ],
             [
                 'name'     => '建立副本',
                 'type'     => 'rpg',
                 'lang'     => 'zh-TW',
                 'code'     => '',
-                'keyword'  => '建立副本',
+                'keyword'  => '#建立副本',
                 'children' => [
                     [
                         'name'    => '設定名稱',
@@ -56,24 +65,27 @@ class DefaultBotMissionSeeder extends Seeder
                 'type'    => 'rpg',
                 'lang'    => 'zh-TW',
                 'code'    => '',
-                'keyword' => '開啟副本',
+                'keyword' => '#開啟副本',
             ]
         ];
 
         foreach ($missions as $mission) {
-            $children = [];
-            if (isset($mission['children'])) {
-                $children = $mission['children'];
-                unset($mission['children']);
-            }
-            $res = PlurkBotMission::create($mission);
+            $this->createPlurkBotMission($mission);
+        }
+    }
 
-            if ($children) {
-                $id = $res->id;
-                foreach ($children  as $key => $value) {
-                    $value['parent'] = $id;
-                    PlurkBotMission::create($value);
-                }
+    public function createPlurkBotMission($mission)
+    {
+        $children = $mission['children'] ?? false;
+        unset($mission['children']);
+
+        $res = PlurkBotMission::create($mission);
+        $id  = $res->id;
+
+        if ($children) {
+            foreach ($children as $value) {
+                $value['parent'] = $id;
+                $this->createPlurkBotMission($value);
             }
         }
     }

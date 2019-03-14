@@ -24,11 +24,8 @@ class ScanPlurkMissionJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user, PlurkAPI $qlurk)
+    public function __construct()
     {
-        //
-        $this->user  = $user;
-        $this->qlurk = $qlurk;
     }
 
     /**
@@ -44,7 +41,12 @@ class ScanPlurkMissionJob implements ShouldQueue
             if ($mission) {
                 $class   = 'App\\Jobs\\PlurkBotJobs\\'.$mission->code;
                 if (class_exists($class)) {
-                    $class::dispatch($this->user, $this->qlurk);
+                    //
+                    $pm->status = 2;
+                    $pm->save();
+
+                    // 以一個 Plurk 為執行單位
+                    $class::dispatch($pm)->delay(now()->addSeconds(3));
                 }
             }
         }

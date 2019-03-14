@@ -19,19 +19,15 @@ class ScanPlurksJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $qlurk;
-    protected $user;
+    public $timeout = 10;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, PlurkAPI $qlurk)
+    public function __construct()
     {
-        //
-        $this->user  = $user;
-        $this->qlurk = $qlurk;
     }
 
     /**
@@ -42,29 +38,36 @@ class ScanPlurksJob implements ShouldQueue
     public function handle()
     {
         //
-        $plurks = $this->qlurk->getPlurkByFilter();
-        foreach ($plurks as $plurk) {
-            DB::beginTransaction();
-            //
-            $plurk_id = $plurk['plurk_id'];
-            // if (Plurk::where('plurk_id', $plurk_id)->count() > 0) {
-            //     continue;
-            // }
+        $user  = User::find(1);
+        $qlurk = new PlurkAPI($user);
 
-            if ($key_word = $this->matchKeyword($plurk['content_raw'])) {
-                $plurk    = $this->savePlurk($plurk);
-                $mission  = PlurkBotMission::where('keyword', $key_word)->first();
+        //
+        $plurks = $qlurk->getPlurkByFilter();
+        if ($plurks) {
+            foreach ($plurks as $plurk) {
+                DB::beginTransaction();
+                //
+                $plurk_id = $plurk['plurk_id'];
+                // if (Plurk::where('plurk_id', $plurk_id)->count() > 0) {
+                //     continue;
+                // }
 
-                $this->savePlurkMission($plurk, $mission);
+                if ($key_word = $this->matchKeyword($plurk['content_raw'])) {
+                    $mission  = PlurkBotMission::where('keyword', $key_word)->first();
+                    if ($mission) {
+                        $plurk = $this->savePlurk($plurk);
+                        $this->savePlurkMission($plurk, $mission);
+                    }
+                }
+                DB::commit();
             }
-            DB::commit();
         }
     }
 
     public function matchKeyword($content_raw)
     {
         $key_word = null;
-        if (preg_match('/^[a-z]*|^#([\x{4e00}-\x{9fa5}]+)/u', $content_raw, $matches)) {
+        if (preg_match('/^[a-z]+|^#([\x{4e00}-\x{9fa5}]+)/u', $content_raw, $matches)) {
             $key_word = $matches[0];
         }
 

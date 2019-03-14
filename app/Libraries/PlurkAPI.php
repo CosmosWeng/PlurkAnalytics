@@ -27,7 +27,17 @@ class PlurkAPI extends ApiClient
         }
     }
 
-    public function responseAdd($plurk_id, $content, $qualifier)
+    public function setFollowing($user_id, $follow = 'true')
+    {
+        $resp = $this->call('/APP/FriendsFans/setFollowing', [
+            'user_id'     => (string)$user_id,
+            'follow'      => (string)$follow,
+        ]);
+
+        return $resp;
+    }
+
+    public function responseAdd($plurk_id, $content, $qualifier = 'says')
     {
         return $this->call('/APP/Responses/responseAdd', [
             'plurk_id'      => (string)$plurk_id,
@@ -67,6 +77,17 @@ class PlurkAPI extends ApiClient
                 'message' => 'PLURK API ERROR'
             ]));
         }
+
+        return $resp;
+    }
+
+    public function getResponsesById($plurk_id)
+    {
+        $resp = $this->call('/APP/Responses/getById', [
+            'plurk_id'      => (string)$plurk_id,
+            'minimal_user'  => 'true',
+            'minimal_data'  => 'true'
+        ]);
 
         return $resp;
     }

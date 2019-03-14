@@ -16,19 +16,16 @@ class RegisterUserJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $qlurk;
-    protected $user;
+    protected $plurk_mission;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, PlurkAPI $qlurk)
+    public function __construct(PlurkBotPlurkMission $plurk_mission)
     {
-        //
-        $this->user  = $user;
-        $this->qlurk = $qlurk;
+        $this->plurk_mission = $plurk_mission;
     }
 
     /**
@@ -38,17 +35,26 @@ class RegisterUserJob implements ShouldQueue
      */
     public function handle()
     {
-        //
-        $plurk_missions = PlurkBotPlurkMission::with(['mission' => function ($query) {
-            $query->where('code', 'RegisterUserJob');
-        }])
-        ->where('status', 1)
-        ->get();
+        $user  = User::find(1);
+        $qlurk = new PlurkAPI($user);
 
-        foreach ($plurk_missions as $plurk_mission) {
-            //
+        $plurk         = $this->plurk_mission->plurk;
+        $plurk_mission = $this->plurk_mission;
+
+        //
+        $success_text = $qlurk->setFollowing($plurk->user_id, 'true')['success_text'];
+        //
+        if ($success_text == 'ok') {
+            //回覆
+            $qlurk->responseAdd($plurk['plurk_id'], $plurk['content'].' Success', 'says');
+            // 更改狀態
+            $status = 0;
+        } else {
+            // 更改狀態
+            $status = 1;
         }
 
-        dd($plurk_missions);
+        $plurk_mission->status = $status;
+        $plurk_mission->save();
     }
 }
