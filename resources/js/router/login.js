@@ -7,7 +7,7 @@ export default {
   children: [
     {
       path: 'plurk',
-      redirect: (to, from, next) => {
+      redirect: to => {
         localStorage.clear()
 
         getToken(to.query).then(function(result) {
@@ -19,7 +19,7 @@ export default {
           }
         })
 
-        return '/'
+        return { name: 'Dashboard' }
       }
     },
     {

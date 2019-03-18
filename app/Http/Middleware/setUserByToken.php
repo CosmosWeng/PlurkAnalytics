@@ -19,7 +19,10 @@ class setUserByToken
     {
         $auth = Auth::guard('api');
         $user = $auth->user();
-        $request->attributes->add(['_user' => $user]);
+
+        if ($user) {
+            $request->attributes->add(['_user' => $user]);
+        }
 
         return $next($request);
     }

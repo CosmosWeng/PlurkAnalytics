@@ -55,7 +55,7 @@ class User extends Model
 
     public static function getUserByToken(string $token)
     {
-        return self::where('api_token', $token)->firstOrFail();
+        return self::where('api_token', $token)->first();
     }
 
     public function plurkUser()

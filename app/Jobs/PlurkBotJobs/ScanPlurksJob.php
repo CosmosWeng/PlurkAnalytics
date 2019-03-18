@@ -19,7 +19,8 @@ class ScanPlurksJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 10;
+    public $timeout = 30;
+    public $tries   = 1;
 
     /**
      * Create a new job instance.
@@ -43,14 +44,15 @@ class ScanPlurksJob implements ShouldQueue
 
         //
         $plurks = $qlurk->getPlurkByFilter();
+
         if ($plurks) {
             foreach ($plurks as $plurk) {
                 DB::beginTransaction();
                 //
                 $plurk_id = $plurk['plurk_id'];
-                // if (Plurk::where('plurk_id', $plurk_id)->count() > 0) {
-                //     continue;
-                // }
+                if (Plurk::where('plurk_id', $plurk_id)->count() > 0) {
+                    continue;
+                }
 
                 if ($key_word = $this->matchKeyword($plurk['content_raw'])) {
                     $mission  = PlurkBotMission::where('keyword', $key_word)->first();
@@ -62,6 +64,8 @@ class ScanPlurksJob implements ShouldQueue
                 DB::commit();
             }
         }
+
+        die;
     }
 
     public function matchKeyword($content_raw)

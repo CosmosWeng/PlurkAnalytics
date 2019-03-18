@@ -21,7 +21,7 @@ export default {
   name: 'SocialSignin',
   methods: {
     plurkHandleClick(thirdpart) {
-      this.$router.push({ path: 'login/plurk' })
+      this.$router.push({ path: '/login/plurk' })
       const loading = this.$loading({
         lock: true,
         text: 'Loading',

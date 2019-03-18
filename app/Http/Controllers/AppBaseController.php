@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use InfyOm\Generator\Utils\ResponseUtil;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Utils\ResponseUtil;
 use Response;
 
 /**
- * @SWG\Swagger(
- *   basePath="/api/",
- *   @SWG\Info(
- *     title="Laravel Generator APIs",
- *     version="1.0.0",
- *   )
- * )
  * This class should be parent class for other API controllers
  * Class AppBaseController
  */
@@ -25,6 +19,19 @@ class AppBaseController extends Controller
 
     public function sendError($error, $code = 404)
     {
-        return Response::json(ResponseUtil::makeError($error), $code);
+        throw new HttpResponseException(Response::json(ResponseUtil::makeResponse($error, [], $code), $code));
+    }
+
+    public function sendPaginateResponse($result, $message)
+    {
+        $response = ResponseUtil::makeResponse($message, $result['data']);
+
+        foreach ($result as $key => $value) {
+            if ($key != 'data') {
+                $response[$key] = $value;
+            }
+        }
+
+        return Response::json($response);
     }
 }

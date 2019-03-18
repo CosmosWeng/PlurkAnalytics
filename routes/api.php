@@ -17,12 +17,20 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['prefix' => 'plurk'], function () {
-    Route::get('getFriends', 'PlurkController@getFriendsCompletion');
-    Route::get('getFriendsByOffset', 'PlurkController@getFriendsByOffset');
-    Route::get('getMe', 'PlurkController@getUsersMe');
+Route::group(['middleware' => ['auth.token']], function () {
+    //
+    Route::group(['prefix' => 'plurk'], function () {
+        Route::get('getFriends', 'PlurkController@getFriendsCompletion');
+        Route::get('getFriendsByOffset', 'PlurkController@getFriendsByOffset');
+        Route::get('getMe', 'PlurkController@getUsersMe');
+    });
+
+    //
+    Route::group(['prefix' => 'analyse'], function () {
+        Route::get('report', 'PlurkAnalyticController@getReportAll');
+    });
 });
 
-Route::group(['prefix' => 'analyse'], function () {
-    Route::get('report', 'PlurkAnalyticController@getReportAll');
-});
+Route::resource('messages', 'MessageAPIController');
+
+//
