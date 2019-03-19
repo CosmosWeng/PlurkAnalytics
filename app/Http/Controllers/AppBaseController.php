@@ -24,8 +24,13 @@ class AppBaseController extends Controller
 
     public function sendPaginateResponse($result, $message)
     {
-        $response = ResponseUtil::makeResponse($message, $result['data']);
+        if (array_key_exists('data', $result)) {
+            $data = $result['data'];
+        } else {
+            $data = $result;
+        }
 
+        $response = ResponseUtil::makeResponse($message, $data);
         foreach ($result as $key => $value) {
             if ($key != 'data') {
                 $response[$key] = $value;

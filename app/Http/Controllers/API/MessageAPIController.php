@@ -39,16 +39,15 @@ class MessageAPIController extends AppBaseController
     public function index(Request $request)
     {
         $this->messageRepository->pushCriteria(new RequestCriteria($request));
-        $this->messageRepository->pushCriteria(new LimitOffsetCriteria($request));
-
-        //
         $messages = $this->messageRepository->scopeQuery(function ($query) {
             return $query->with(['children' => function ($query) {
                 return $query->with(['user']);
-            }, 'user'])->where('parent_id', 0);
-        })->all();
+            }, 'user'])->where([['parent_id', 0], ['is_public', 1]])
+                    ->orderBy('id', 'desc');
+        })->paginate($request->get('limit', null), $columns = ['*']);
+        // dd($messages->toArray());
 
-        return $this->sendResponse($messages->toArray(), 'Messages retrieved successfully');
+        return $this->sendPaginateResponse($messages->toArray(), 'Messages retrieved successfully');
     }
 
     /**
@@ -62,8 +61,27 @@ class MessageAPIController extends AppBaseController
     public function store(CreateMessageAPIRequest $request)
     {
         $input = $request->all();
+        $user  = $request->get('_user');
 
+        if (! $user) {
+            return $this->sendError('User not found');
+        }
+        $input['user_id'] = $user->id;
+
+        //
         $messages = $this->messageRepository->create($input);
+
+        //
+        if ($request->has('parent_id') && $request->parent_id) {
+            $message = $this->messageRepository->findWithoutFail($request->parent_id);
+            if ($user->id == $messages->user_id) {
+                $is_reply = 1;
+            } else {
+                $is_reply = 0;
+            }
+            $message->is_reply = $is_reply;
+            $message->save();
+        }
 
         return $this->sendResponse($messages->toArray(), 'Message saved successfully');
     }

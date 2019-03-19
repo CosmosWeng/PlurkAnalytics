@@ -7,3 +7,11 @@ export function fetchList(query) {
     params: query
   })
 }
+
+export function createMessage(data) {
+  return request({
+    url: '/messages',
+    method: 'post',
+    data
+  })
+}

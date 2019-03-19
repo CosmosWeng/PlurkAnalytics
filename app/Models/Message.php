@@ -56,6 +56,8 @@ class Message extends Model
      * @var array
      */
     public static $rules = [
+        'title'   => 'required',
+        'content' => 'required',
     ];
 
     public function children()
@@ -65,6 +67,6 @@ class Message extends Model
 
     public function user()
     {
-        return $this->hasOne('App\Models\User', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
 }

@@ -44,8 +44,8 @@ export const constantRouterMap = [
       }
     ]
   },
-  plurk,
   message,
+  plurk,
   { path: '*', redirect: '/404', hidden: true }
 ]
 

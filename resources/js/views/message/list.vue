@@ -1,117 +1,152 @@
 <template>
-  <div>
-    <div class="app-container">
+  <div class="app-container">
+    <div class="filter-container">
       <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
         type="primary"
-        size="small"
-        style="margin:0 0 20px 0;"
+        icon="el-icon-edit"
+        @click="handleCreate"
       >
-        <a
-          href="https://github.com/PanJiaChen/vue-element-admin/tree/master/src/components/TreeTable"
-          target="_blank"
-        >Documentation</a>
+        Add
       </el-button>
-
-      <tree-table
-        :data="tableData"
-        :columns="columns"
-        border
-      >
-        <!-- <template slot="selection">
-          <el-table-column
-            type="selection"
-            align="center"
-            width="55"
-          />
-        </template> -->
-
-        <template slot="pre-column">
-          <el-table-column
-            type="expand"
-            width="55"
-          >
-            <template slot-scope="scope">
-              <!--  -->
-              <template v-if="scope.row.user">
-                <p>
-                  {{ scope.row.user.name }}: {{ scope.row.content }}
-                </p>
-                <template v-if="scope.row.children">
-                  <!--  -->
-                  <template v-for="children in scope.row.children">
-                    <!--  -->
-                    <template v-if="children.user">
-                      {{ children.user.name }}: {{ children.content }}
-                    </template>
+    </div>
+    <tree-table
+      :data="tableData"
+      :columns="columns"
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      border
+    >
+      <template slot="pre-column">
+        <el-table-column
+          type="expand"
+          width="55"
+        >
+          <template slot-scope="scope">
+            <!--  -->
+            <template v-if="scope.row.user">
+              <p>
+                {{ scope.row.user.name }}: <br>
+                {{ scope.row.content }}
+              </p>
+              <template v-if="scope.row.children">
+                <!--  -->
+                <el-card
+                  v-for="children in scope.row.children"
+                  :key="children.id"
+                  class="box-card"
+                >
+                  <template v-if="children.user">
+                    <div
+                      v-if="scope.row.user_id == children.user_id"
+                      class="text item"
+                    >
+                      {{ children.user.name }}: <br>
+                      {{ children.content }}
+                    </div>
+                    <div
+                      v-else
+                      class="text item"
+                      align="right"
+                    >
+                      : {{ children.user.name }}<br>
+                      {{ children.content }}
+                    </div>
                   </template>
-                </template>
+                </el-card>
               </template>
             </template>
-          </el-table-column>
-        </template>
+          </template>
+        </el-table-column>
+      </template>
 
-        <!-- <template
-          slot="scope"
-          slot-scope="{scope}"
+      <template
+        slot="is_reply"
+        slot-scope="{scope}"
+      >
+        <el-tag
+          v-if="scope.row.is_reply"
+          type="info"
         >
-          <el-tag>level: {{ scope.row.is_public }}</el-tag>
-          <el-tag>expand: {{ scope.row.is_reply }}</el-tag>
-          <el-tag>select: {{ scope.row.user_id }}</el-tag>
-        </template> -->
+          已回覆
+        </el-tag>
+        <el-tag
+          v-else
+          type="danger"
+        >
+          未回覆
+        </el-tag>
+      </template>
 
-        <template
-          slot="is_reply"
-          slot-scope="{scope}"
+      <template
+        slot="operation"
+        slot-scope="{scope}"
+      >
+        <el-button
+          size="mini"
+          type="success"
+          @click="handleReply(scope.row)"
         >
-          <el-tag v-if="scope.row.is_reply">
-            已回覆
-          </el-tag>
-          <el-tag v-else>
-            未回覆
-          </el-tag>
-        </template>
-
-        <template
-          slot="operation"
-          slot-scope="{scope}"
-        >
-          <el-button
-            size="mini"
-            type="success"
-            @click="editItem(scope.row)"
-          >
-            回覆
-          </el-button>
-        </template>
-      </tree-table>
-    </div>
+          回覆
+        </el-button>
+      </template>
+    </tree-table>
+    <Pagination
+      v-show="total>0"
+      :total="total"
+      :page-sizes="[5,10,20]"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
+    />
 
     <el-dialog
+      :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
-      title="Edit"
     >
       <el-form
-        :model="tempItem"
-        label-width="100px"
-        style="width:600px"
+        ref="dataForm"
+        :rules="rules"
+        :model="temp"
+        label-position="left"
+        label-width="70px"
+        style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="Name">
+        <el-form-item
+          label="Title"
+          prop="title"
+        >
+          <el-input v-model="temp.title" />
+        </el-form-item>
+
+        <el-form-item
+          label="Content"
+          prop="content"
+        >
           <el-input
-            v-model.trim="tempItem.name"
-            placeholder="Name"
+            v-model="temp.content"
+            :autosize="{ minRows: 4, maxRows: 10}"
+            type="textarea"
+            placeholder="Please input"
           />
         </el-form-item>
       </el-form>
-      <span
+      <div
         slot="footer"
         class="dialog-footer"
       >
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button @click="dialogFormVisible = false">
+          Cancel
+        </el-button>
         <el-button
           type="primary"
-          @click="updateItem"
-        >Confirm</el-button>
-      </span>
+          @click="dialogStatus==='create'?createData():updateData()"
+        >
+          Confirm
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -123,18 +158,17 @@
 */
 import treeTable from '@/components/TreeTable'
 import treeToArray from './treeTable/customEval'
+import Pagination from '@/components/Pagination'
 
 import { mapGetters } from 'vuex'
-import { fetchList } from '@/api/message'
+import { fetchList, createMessage } from '@/api/message'
 
 export default {
   name: 'CustomTreeTableDemo',
-  components: { treeTable },
+  components: { treeTable, Pagination },
   data() {
     return {
       tableData: [],
-      tempItem: {},
-      dialogFormVisible: false,
       columns: [
         {
           label: 'Title',
@@ -158,8 +192,24 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20
+        page: 0,
+        limit: 5
+      },
+      temp: {
+        id: undefined,
+        title: '',
+        content: '',
+        is_public: 1,
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: 'Edit',
+        create: 'Create'
+      },
+      rules: {
+        title: [{ required: true, message: 'title is required', trigger: 'blur' }],
+        content: [{ required: true, message: 'content is required', trigger: 'blur' }],
       },
     }
   },
@@ -173,25 +223,64 @@ export default {
     this.getList()
   },
   methods: {
-    message(row) {
-      this.$message.info('created_at: ' + row.created_at)
-    },
     getList() {
       this.listLoading = true
       this.listQuery.plurk_uuid = this.plurk_uuid
       fetchList(this.listQuery).then(response => {
         this.tableData = response.data
-        this.total = this.friends_count
+        this.total = response.total
         this.listLoading = false
       })
     },
-    editItem(row) {
-      this.tempItem = Object.assign({}, row)
-      this.dialogFormVisible = true
+    resetTemp() {
+      this.temp = {
+        id: undefined,
+        title: '',
+        content: '',
+        is_public: 1,
+      }
     },
-    async updateItem() {
-      await this.$refs.TreeTable.updateTreeNode(this.tempItem)
-      this.dialogFormVisible = false
+    handleReply(row) {
+      let parent_id = row.id,
+        title = 'Re: ' + row.title
+
+      this.resetTemp()
+      this.temp['parent_id'] = parent_id
+      this.temp['title'] = title
+
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+
+          createMessage(this.temp).then((response) => {
+            if (response.code == 200) {
+              // this.tableData.unshift(this.temp)
+              this.dialogFormVisible = false
+              this.$notify({
+                title: '成功',
+                message: response.message,
+                type: 'success',
+                duration: 2000
+              })
+              this.getList()
+            }
+          })
+        }
+      })
     },
     selectChange(val) {
       console.log(val)
