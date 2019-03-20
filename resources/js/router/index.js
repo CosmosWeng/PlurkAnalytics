@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-// in development-env not use lazy-loading, because lazy-loading too many pages will cause webpack hot update too slow. so only in production use lazy-loading;
-// detail: https://panjiachen.github.io/vue-element-admin-site/#/lazy-loading
+import store from '../store'
+import { getUserInfo } from '@/api/user'
 
 Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -49,9 +47,25 @@ export const constantRouterMap = [
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-export default new Router({
+const router = new Router({
   base: '/',
   mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
+
+router.beforeEach((to, from, next) => {
+  let token = localStorage.getObject('token'),
+      user = store.getters['user/user']
+
+  if (token && !user) {
+    getUserInfo().then(function(result) {
+      if (result.code == 200) {
+        store.commit('user/SET_PLURK_USER', result.data)
+      }
+    })
+  }
+  next()
+})
+
+export default router

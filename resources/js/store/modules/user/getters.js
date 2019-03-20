@@ -1,5 +1,6 @@
 export default {
   token: state => state.token,
+  user: state => state.user,
   avatar: state => state.avatar, //'images/user.png',
   avatar_big: state => state.avatar_big,
   name: state => state.name,
