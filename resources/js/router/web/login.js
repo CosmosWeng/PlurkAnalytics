@@ -1,5 +1,5 @@
 import { getToken, getAccessToken } from '@/api/login'
-import store from '../store'
+import store from '@/store'
 
 export default {
   path: '/login',
@@ -39,6 +39,8 @@ export default {
             if (data.hasOwnProperty('user')) {
               store.commit('user/SET_PLURK_USER', data.user)
             }
+
+            store.dispatch('GenerateRoutes', { roles: ['admin'] })
           }
         })
         next({ path: '/' })

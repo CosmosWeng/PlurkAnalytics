@@ -17,11 +17,15 @@
 </template>
 
 <script>
+// import 'element-ui/lib/theme-chalk/index.css'
+import Vue from 'vue'
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en'
+Vue.use(ElementUI, { locale })
+
 import { Navbar, Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
-
 export default {
-  name: 'Layout',
   components: {
     Navbar,
     Sidebar,
@@ -51,8 +55,8 @@ export default {
   }
 }
 </script>
-
-<style rel="stylesheet/scss" lang="scss">
+<style src="element-ui/lib/theme-chalk/index.css"></style>
+<style  rel="stylesheet/scss" lang="scss">
 @import '@/styles/mixin.scss';
 .app-wrapper {
   @include clearfix;

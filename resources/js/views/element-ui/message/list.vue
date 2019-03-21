@@ -156,9 +156,9 @@
   Auth: Lei.j1ang
   Created: 2018/1/19-14:54
 */
-import treeTable from '@/components/TreeTable'
 import treeToArray from './treeTable/customEval'
-import Pagination from '@/components/Pagination'
+import treeTable from '@/views/element-ui/components/TreeTable'
+import Pagination from '@/views/element-ui//components/Pagination'
 
 import { mapGetters } from 'vuex'
 import { fetchList, createMessage } from '@/api/message'
@@ -242,7 +242,7 @@ export default {
     },
     handleReply(row) {
       let parent_id = row.id,
-        title = 'Re: ' + row.title
+          title = 'Re: ' + row.title
 
       this.resetTemp()
       this.temp['parent_id'] = parent_id

@@ -97,7 +97,7 @@
 import { mapGetters } from 'vuex'
 import { fetchFriendList } from '@/api/user'
 import { getInteractiveReport } from '@/api/analyse'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/views/element-ui/components/Pagination' // Secondary package based on el-pagination
 
 export default {
   name: 'FriendList',
@@ -127,7 +127,7 @@ export default {
     }),
     rendorList() {
       let list = [],
-          users = this.analyseFriendData.users
+        users = this.analyseFriendData.users
 
       for (let index = 0; index < this.list.length; index++) {
         const element = this.list[index]

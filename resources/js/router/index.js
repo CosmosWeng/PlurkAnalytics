@@ -1,12 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '../store'
-import { getUserInfo } from '@/api/user'
-
 Vue.use(Router)
 
-/* Layout */
-import Layout from '../views/layout/Layout'
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -21,51 +16,57 @@ import Layout from '../views/layout/Layout'
   }
 **/
 import e404 from '@/views/404'
-import dashboard from '@/views/dashboard/index'
+import * as web from './web'
+import mobile from './mobile'
 
-import login from './login'
-import plurk from './plurk'
-import message from './message'
-export const constantRouterMap = [
+export const constantRoutes = [
   { path: '/404', component: e404, hidden: true },
-  login,
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: dashboard,
-        meta: { title: 'Home', icon: 'dashboard' }
-      }
-    ]
-  },
-  message,
-  plurk,
+  web.dashboard,
+  web.login,
+  web.message,
+  web.plurk,
+  mobile,
   { path: '*', redirect: '/404', hidden: true }
 ]
+export const asyncRoutes = []
 
 const router = new Router({
   base: '/',
   mode: 'history', //后端支持可开
   scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
+  routes: constantRoutes
 })
 
-router.beforeEach((to, from, next) => {
-  let token = localStorage.getObject('token'),
-      user = store.getters['user/user']
+// router.beforeEach((to, from, next) => {
+//   const roles = []
 
-  if (token && !user) {
-    getUserInfo().then(function(result) {
-      if (result.code == 200) {
-        store.commit('user/SET_PLURK_USER', result.data)
-      }
-    })
-  }
-  next()
-})
+//   let token = localStorage.getObject('token'),
+//       user = store.getters['user/user']
+
+//   if (token && !user) {
+//     getUserInfo().then(function(result) {
+//       if (result.code == 200) {
+//         store.commit('user/SET_PLURK_USER', result.data)
+
+//         roles.push('admin')
+//         store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
+//           // 根据roles权限生成可访问的路由表
+//           router.addRoutes(accessRoutes) // 动态添加可访问路由表
+//         })
+//       }
+//     })
+//   }
+
+//   if (user) {
+//     roles.push('admin')
+//   }
+
+//   //
+//   store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
+//     // 根据roles权限生成可访问的路由表
+//     router.addRoutes(accessRoutes) // 动态添加可访问路由表
+//   })
+//   next()
+// })
 
 export default router

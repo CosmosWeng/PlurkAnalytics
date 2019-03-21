@@ -61,9 +61,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
-import Login from '@/views/login/index'
+import Breadcrumb from '@/views/element-ui/components/Breadcrumb'
+import Hamburger from '@/views/element-ui/components/Hamburger'
+import Login from '@/views/element-ui/login/index'
 
 export default {
   components: {

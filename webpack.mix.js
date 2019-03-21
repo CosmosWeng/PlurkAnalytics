@@ -22,6 +22,16 @@ mix.browserSync({
   open: false
 })
 
+mix.options({
+  extractVueStyles: true, //extractVueStyles:提取 .vue 組件樣式(CSS在<style>標籤內)到一個專用文件，而不是將其嵌入到HTML中。
+  processCssUrls: true,
+  uglify: {},
+  purifyCss: false,
+  //purifyCss: {},
+  postCss: [require('autoprefixer')],
+  clearConsole: true
+})
+
 mix.webpackConfig({
   resolve: {
     alias: {
@@ -43,13 +53,13 @@ mix.webpackConfig({
     ]
   },
   plugins: [
-    new SVGSpritemapPlugin(svgSourcePath, {
-      output: {
-        filename: svgSpriteDestination,
-        svg4everybody: true,
-        svgo: true
-      }
-    })
+    // new SVGSpritemapPlugin(svgSourcePath, {
+    //   output: {
+    //     filename: svgSpriteDestination,
+    //     svg4everybody: true,
+    //     svgo: true
+    //   }
+    // })
   ]
 })
 

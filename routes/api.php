@@ -32,5 +32,3 @@ Route::group(['middleware' => ['auth.token']], function () {
 });
 
 Route::resource('messages', 'MessageAPIController');
-
-//

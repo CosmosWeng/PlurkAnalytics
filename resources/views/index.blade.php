@@ -20,6 +20,8 @@
     <base href="{{url('/')}}">
 
     <link rel="shortcut icon" href="{{url('favicon.ico')}}" />
+    <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
+
 
 <style>
         [v-cloak] { display: none;}

@@ -1,13 +1,13 @@
-import store from '../store'
-import Layout from '../views/layout/Layout'
-import { Info, Friend } from '@/views/plurk'
+import store from '@/store'
+import Layout from '@/views/element-ui/layout/Layout'
+import { Info, Friend } from '@/views/element-ui/plurk'
 
 export default {
   path: '/plurk',
   component: Layout,
   redirect: '/plurk/info',
   name: 'Plurk',
-  meta: { title: 'Plurk', icon: 'plurk' },
+  meta: { title: 'Plurk', icon: 'plurk', roles: ['admin'] },
   beforeEnter: (to, from, next) => {
     //
     store.

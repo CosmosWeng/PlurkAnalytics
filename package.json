@@ -10,7 +10,9 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
+        "@babel/plugin-transform-runtime": "^7.4.0",
         "axios": "^0.18",
+        "babel-loader": "^8.0.5",
         "bootstrap": "^4.0.0",
         "browser-sync": "^2.26.3",
         "browser-sync-webpack-plugin": "2.0.1",
@@ -26,18 +28,20 @@
         "vue-template-compiler": "^2.5.21"
     },
     "dependencies": {
-        "@babel/core": "^7.3.4",
+        "@babel/core": "^7.4.0",
         "@babel/helper-module-imports": "^7.0.0",
         "@babel/plugin-syntax-jsx": "^7.2.0",
-        "@babel/preset-env": "^7.3.4",
+        "@babel/preset-env": "^7.4.1",
         "babel-eslint": "^10.0.1",
         "babel-helper-vue-jsx-merge-props": "^2.0.3",
+        "babel-plugin-import": "^1.11.0",
         "babel-plugin-transform-vue-jsx": "4.0.1",
         "element-ui": "^2.4.11",
         "eslint": "^5.10.0",
         "eslint-plugin-html": "^5.0.0",
         "eslint-plugin-vue": "^5.0.0",
         "js-cookie": "2.2.0",
+        "mint-ui": "^2.2.13",
         "normalize.css": "7.0.0",
         "nprogress": "0.2.0",
         "svg-spritemap-webpack-plugin": "^3.2.2",

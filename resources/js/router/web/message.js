@@ -1,5 +1,5 @@
-import Layout from '../views/layout/Layout'
-import { List } from '@/views/message'
+import Layout from '@/views/element-ui/layout/Layout'
+import { List } from '@/views/element-ui/message'
 
 export default {
   path: '/message',
