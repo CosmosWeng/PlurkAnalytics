@@ -45,7 +45,10 @@ class DefaultUserAccountSeeder extends Seeder
             'email'     => $resp['email'],
             'password'  => Hash::make($resp['nick_name'].$resp['email'].$resp['uuid']),
         ]);
+        // Set Role
+        $user->setUserRole(['user']);
 
+        //
         $puser->user_id = $user->id;
         $puser->save();
     }

@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use DB;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Models\Role;
 
 /**
  * Class User
@@ -16,7 +19,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class User extends Model
 {
-    // use SoftDeletes;
+    use SoftDeletes;
 
     public $table = 'users';
 
@@ -61,5 +64,39 @@ class User extends Model
     public function plurkUser()
     {
         return $this->hasOne('App\Models\PlurkUser');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\Role', 'user_roles');
+    }
+
+    //
+    public function setUserRole($slugs)
+    {
+        $roles = Role::WhereIn('slug', $slugs)->get()->toArray();
+
+        // 過濾存在
+        $roles = array_filter($roles, function ($value) {
+            $count = DB::table('user_roles')->where([
+                ['user_id', $this->id],
+                ['role_id', $value['id']]
+            ])->count();
+
+            return ($count > 0) ? false : true;
+        });
+
+        if (! empty($roles)) {
+            $roles = array_map(function ($value) {
+                return [
+                    'user_id' => $this->id,
+                    'role_id' => $value['id']
+                ];
+            }, $roles);
+
+            DB::table('user_roles')->insert($roles);
+        }
+
+        return $this;
     }
 }

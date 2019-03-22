@@ -31,4 +31,15 @@ Route::group(['middleware' => ['auth.token']], function () {
     });
 });
 
+use App\Models\User;
+
+Route::get('getMe', function () {
+    $user = User::with(['roles'])->find(1);
+    $user->setUserRole(['user']);
+
+    return response()->json([
+        'code' => 200,
+        'data' => $user
+    ], 200);
+});
 Route::resource('messages', 'MessageAPIController');

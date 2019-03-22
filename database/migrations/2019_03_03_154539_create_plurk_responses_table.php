@@ -13,16 +13,16 @@ class CreatePlurkResponsesTable extends Migration
      */
     public function up()
     {
-        Schema::create('plurk_responses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('plurk_id');
-            $table->integer('user_id');
-            $table->integer('response_id');
-            $table->string('qualifier');
-            $table->text('content')->nullable();
-            $table->timestamp('posted');
-            $table->unique(['plurk_id', 'response_id']);
-        });
+        // Schema::create('plurk_responses', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->integer('plurk_id');
+        //     $table->integer('user_id');
+        //     $table->integer('response_id');
+        //     $table->string('qualifier');
+        //     $table->text('content')->nullable();
+        //     $table->timestamp('posted');
+        //     $table->unique(['plurk_id', 'response_id']);
+        // });
     }
 
     /**

@@ -10,32 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('index');
-});
+
+Route::view('/', 'index');
 
 Route::group(['prefix' => 'api/login'], function () {
     Route::post('getToken', 'AuthController@getToken');
     Route::post('accessToken', 'AuthController@getAccessToken');
 });
 
-// routes/web.php
-// Route::post('/deploy', function (Request $request) {
-//     $path = base_path();
-//     $sig_check = 'sha1='.hash_hmac('sha1', $request->getContent(), config('app.key'));
-//     $x_hub_signature = $request->header('X-Hub-Signature');
-//     $agent = $request->header('User-Agent');
+Route::view('/{all}', 'index')->where(['all' => '.*']);
 
-//     if (preg_match('/GitHub/i', $agent) && ! $x_hub_signature || $x_hub_signature !== $sig_check) {
-//         return response()->json(['data' => ['token' => $sig_check, 'signature' => $x_hub_signature], 'message' => 'error request'], 500);
-//     }
-
-//     Artisan::call('deploy');
-//     $output = Artisan::output();
-
-//     return response()->json(['data' => ['output' => $output], 'message' => 'Success'], 200);
-// });
-
-Route::any('/{all}', function () {
-    return view('index');
-})->where(['all' => '.*']);
+// Route::any('/{all}', function () {
+//     return view('index');
+// })->where(['all' => '.*']);

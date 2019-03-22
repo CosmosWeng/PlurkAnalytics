@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable()->comment('信箱驗證日期');
             $table->timestamp('updated_at')->useCurrent()->comment('*更新時間');
             $table->timestamp('created_at')->useCurrent()->comment('*建立時間');
+            $table->softDeletes()->comment('刪除時間');
             // $table->timestamps();
         });
     }

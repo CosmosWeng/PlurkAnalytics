@@ -79,6 +79,9 @@ class AuthController extends Controller
                         'api_token' => $this->restToken('api', 30),
                     ]);
 
+                    // Set Role
+                    $user->setUserRole(['user']);
+
                     //
                     $puser->user_id = $user->id;
                     $puser->save();

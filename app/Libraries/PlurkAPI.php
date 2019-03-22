@@ -23,7 +23,7 @@ class PlurkAPI extends ApiClient
             $this->user = $user;
             $this->setAccessToken($user->plurkUser->token, $user->plurkUser->secret);
         } else {
-            throw new UserErrorException('USER_NOT_FOUND');
+            //throw new UserErrorException('USER_NOT_FOUND');
         }
     }
 
