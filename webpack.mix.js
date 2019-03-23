@@ -53,13 +53,12 @@ mix.webpackConfig({
     ]
   },
   plugins: [
-    // new SVGSpritemapPlugin(svgSourcePath, {
-    //   output: {
-    //     filename: svgSpriteDestination,
-    //     svg4everybody: true,
-    //     svgo: true
-    //   }
-    // })
+    new SVGSpritemapPlugin(svgSourcePath, {
+      output: {
+        filename: svgSpriteDestination,
+        svgo: true
+      }
+    })
   ]
 })
 

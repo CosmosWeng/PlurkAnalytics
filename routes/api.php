@@ -36,6 +36,9 @@ use App\Models\User;
 Route::get('getMe', function () {
     $user = User::with(['roles'])->find(1);
     $user->setUserRole(['user']);
+    //
+    $user = $user->toArray();
+    $user['roles'] = array_pluck($user['roles'], 'name');
 
     return response()->json([
         'code' => 200,

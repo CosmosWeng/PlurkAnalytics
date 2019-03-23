@@ -22,7 +22,8 @@ class Role extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
-    protected $dates = ['deleted_at'];
+    protected $dates  = ['deleted_at'];
+    protected $hidden = ['pivot'];
 
     public $fillable = [
         'name',
@@ -46,10 +47,10 @@ class Role extends Model
      * @var array
      */
     public static $rules = [
-        'id'         => 'required',
-        'name'       => 'required',
-        'slug'       => 'required',
-        'updated_at' => 'required',
-        'created_at' => 'required'
+        // 'id'         => 'required',
+        // 'name'       => 'required',
+        // 'slug'       => 'required',
+        // 'updated_at' => 'required',
+        // 'created_at' => 'required'
     ];
 }

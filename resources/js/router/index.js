@@ -20,7 +20,7 @@ import * as web from './web'
 import mobile from './mobile'
 
 export const constantRoutes = [
-  { path: '/404', component: e404, hidden: true },
+  { path: '/404', component: () => import('@/views/404'), hidden: true },
   web.dashboard,
   web.login,
   web.message,

@@ -3,7 +3,7 @@ export { default as message } from './message'
 export { default as plurk } from './plurk'
 
 import Layout from '@/views/element-ui/layout/Layout'
-import index from '@/views/element-ui/dashboard'
+// import index from '@/views/element-ui/dashboard'
 
 export const dashboard = {
   path: '/',
@@ -13,7 +13,7 @@ export const dashboard = {
   children: [
     {
       path: 'dashboard',
-      component: index,
+      component: () => import('@/views/element-ui/dashboard'),
       meta: { title: 'Home', icon: 'dashboard' }
     }
   ]

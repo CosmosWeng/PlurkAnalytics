@@ -1,5 +1,5 @@
 import Layout from '@/views/element-ui/layout/Layout'
-import { List } from '@/views/element-ui/message'
+// import { List } from '@/views/element-ui/message'
 
 export default {
   path: '/message',
@@ -8,7 +8,8 @@ export default {
     {
       path: 'Index',
       name: 'Message',
-      component: List,
+      component: () => import('@/views/element-ui/message/list'),
+      // component: List,
       meta: { title: 'Message', icon: 'message' }
     }
   ]

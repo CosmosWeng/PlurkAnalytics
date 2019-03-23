@@ -16,7 +16,7 @@
 
 .hamburger[data-v-56acbb8e] {
   display: inline-block;
-  cursor: pointer;
+  vertical-align: middle;
   width: 20px;
   height: 20px;
 }
@@ -259,6 +259,14 @@ to {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.svg-icon[data-v-a9338bfc] {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 /* @reset-global mobile; */.box-card-component .el-card__header {
   padding: 0px !important;
@@ -2600,7 +2608,7 @@ template {
   display: inline-block;
   font-size: 14px;
   line-height: 50px;
-  margin-left: 10px;
+  margin-left: 8px;
 }
 .app-breadcrumb.el-breadcrumb .no-redirect[data-v-b6250e18] {
   color: #97a8be;

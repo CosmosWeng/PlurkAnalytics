@@ -46,7 +46,6 @@ export default {
   watch: {
     '$store.state.user.user': {
       handler: function (neweValue, oldValue) {
-        console.log(neweValue, oldValue)
         if (neweValue) {
           let routes = this.$router.options.routes
 

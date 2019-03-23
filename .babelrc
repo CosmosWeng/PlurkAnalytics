@@ -1,4 +1,9 @@
 {
     "presets": ["@babel/preset-env"],
-    "plugins": ["transform-vue-jsx"]
+    "plugins": ["transform-vue-jsx"],
+    "env": {
+        "development": {
+            "plugins": ["dynamic-import-node"]
+        }
+    }
 }

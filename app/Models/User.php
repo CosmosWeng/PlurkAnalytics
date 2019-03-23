@@ -69,6 +69,7 @@ class User extends Model
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role', 'user_roles');
+        ;
     }
 
     //

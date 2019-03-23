@@ -24,13 +24,15 @@ export default {
     {
       path: 'info',
       name: 'PlurkInfo',
-      component: Info,
+      component: () => import('@/views/element-ui/plurk/info'),
+      // component: Info,
       meta: { title: 'Info', icon: 'people' }
     },
     {
       path: 'friend',
       name: 'PlurkFriend',
-      component: Friend,
+      component: () => import('@/views/element-ui/plurk/friend'),
+      // component: Friend,
       meta: { title: 'Friend', icon: 'peoples' }
     }
   ]

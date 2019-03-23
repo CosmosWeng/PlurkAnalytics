@@ -33,6 +33,13 @@ export default {
           if (result.hasOwnProperty('data')) {
             let data = result.data
 
+            if (data.roles && data.roles.length > 0) {
+              // 验证返回的roles是否是一个非空数组
+              store.commit('user/SET_ROLES', data.roles)
+            } else {
+              reject('getInfo: roles must be a non-null array!')
+            }
+
             localStorage.setObject('token', data.token)
             store.commit('user/SET_TOKEN', data.token)
 

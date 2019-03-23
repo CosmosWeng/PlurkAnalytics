@@ -93,7 +93,8 @@ class AuthController extends Controller
 
             $data = [
                 'user'  => $resp,
-                'token' => $user->api_token
+                'token' => $user->api_token,
+                'roles' => array_pluck($user->roles, 'name')
             ];
         }
 
