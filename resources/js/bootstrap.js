@@ -42,17 +42,3 @@ window.axios.defaults.headers.common = {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
-
-Storage.prototype.setObject = function(key, value) {
-  this.setItem(key, JSON.stringify(value))
-}
-Storage.prototype.getObject = function(key) {
-  var value = this.getItem(key)
-
-  try {
-    return value && JSON.parse(value)
-  } catch (e) {
-    console.log(e)
-    return null
-  }
-}

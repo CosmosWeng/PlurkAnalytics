@@ -15,7 +15,9 @@ class PlurkController extends Controller
 
     public function getUsersMe(PlurkAPIRequest $request)
     {
-        $resp = $this->qlurk->call('/APP/Users/me');
+        $resp          = $this->qlurk->call('/APP/Users/me');
+        $user          = $request->get('_user');
+        $resp['roles'] = $user->roles;//array_pluck($user->roles, 'name');
 
         return response()->json([
             'code' => 200,

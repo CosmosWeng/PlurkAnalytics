@@ -10,7 +10,7 @@ export default {
       name: 'Message',
       component: () => import('@/views/element-ui/message/list'),
       // component: List,
-      meta: { title: 'Message', icon: 'message' }
+      meta: { title: 'Message', icon: 'message', roles: [] }
     }
   ]
 }

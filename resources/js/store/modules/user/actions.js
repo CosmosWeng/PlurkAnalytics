@@ -1,10 +1,10 @@
-import { getUserInfo, logout } from '@/api/user'
+import { GetInfo, logout } from '@/api/user'
 import { removeToken } from '@/utils/auth'
 
 export default {
-  GetUserInfo({ commit, state }) {
+  GetInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getUserInfo(state.token).
+      GetInfo(state.token).
         then(response => {
           // 由于mockjs 不支持自定义状态码只能这样hack
           if (!response.data) {

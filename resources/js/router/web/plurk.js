@@ -1,17 +1,17 @@
 import store from '@/store'
 import Layout from '@/views/element-ui/layout/Layout'
-import { Info, Friend } from '@/views/element-ui/plurk'
+// import { Info, Friend } from '@/views/element-ui/plurk'
 
 export default {
   path: '/plurk',
   component: Layout,
   redirect: '/plurk/info',
   name: 'Plurk',
-  meta: { title: 'Plurk', icon: 'plurk', roles: ['admin'] },
+  meta: { title: 'Plurk', icon: 'plurk', roles: ['user'] },
   beforeEnter: (to, from, next) => {
     //
     store.
-      dispatch('user/GetUserInfo').
+      dispatch('user/GetInfo').
       then(function(res) {
         next()
       }).

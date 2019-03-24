@@ -17,7 +17,7 @@ import router from './router'
 import i18n from './lang' // Internationalization
 import '@/icons/index' // icon
 import './errorLog' // error log
-// import './permission' // permission control
+import './permission' // permission control
 
 Vue.config.productionTip = false
 

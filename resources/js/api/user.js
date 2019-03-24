@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getUserInfo() {
+export function GetInfo() {
   return request({
     url: '/plurk/getMe',
     method: 'get'

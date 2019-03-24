@@ -4,7 +4,7 @@
       fixed
       title="固定在顶部"
     />
-    <RouterView />
+    <router-view />
   </div>
 </template>
 
@@ -13,15 +13,7 @@ import Vue from 'vue'
 import { install as Mint } from 'mint-ui'
 Vue.use(Mint)
 
-export default {
-  components: {
-    // MtHeader: Header
-  },
-  computed: {},
-  mounted() {
-  },
-  methods: {}
-}
+export default {}
 </script>
 
 <style src="mint-ui/lib/style.css"></style>
