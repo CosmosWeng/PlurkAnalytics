@@ -163,7 +163,7 @@ $light_gray: #eee;
 }
 </style>
 
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" scoped lang="scss">
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
@@ -215,15 +215,6 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
-  }
-}
-
-.el-dialog__wrapper {
-  .el-dialog__title {
-    color: #fff;
-  }
-  .el-dialog--center {
-    background-color: #2d3a4b;
   }
 }
 </style>

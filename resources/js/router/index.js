@@ -26,7 +26,20 @@ import * as web from './web'
 import mobile from './mobile'
 
 export const constantRoutes = [
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
+  {
+    path: '/404',
+    name: 'page404',
+    props: true,
+    hidden: true,
+    component: () => import('@/views/404'),
+    beforeEnter: (to, from, next) => {
+      if (to.params.hasOwnProperty('from')) {
+        next()
+      } else {
+        next({ name: 'page404', params: { from: from } })
+      }
+    }
+  },
   mobile,
   web.dashboard,
   web.login,

@@ -7,8 +7,13 @@
 require('./bootstrap')
 
 import Vue from 'vue'
+import Element from 'element-ui'
+import { install as Mint } from 'mint-ui'
+Vue.use(Element, { size: 'small', zIndex: 3000 })
+Vue.use(Mint)
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.scss'
 
 import App from './App.vue'

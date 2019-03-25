@@ -12,6 +12,21 @@
           PC .Ver
         </mt-button>
       </router-link>
+
+      <mt-button
+        v-if="!token"
+        slot="right"
+        @click="login"
+      >
+        Login
+      </mt-button>
+      <mt-button
+        v-else
+        slot="right"
+        @click="logout"
+      >
+        Logout
+      </mt-button>
     </mt-header>
     <div class="page-header-main">
       <Tabbar />
@@ -20,11 +35,9 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { install as Mint } from 'mint-ui'
-Vue.use(Mint)
-
+import { mapGetters } from 'vuex'
 import { Tabbar } from './components'
+
 export default {
   components: {
     Tabbar
@@ -33,7 +46,27 @@ export default {
     return {
 
     }
-  }
+  },
+  computed: {
+    ...mapGetters({
+      token: "user/token",
+    }),
+  },
+  methods: {
+    login() {
+      this.$indicator.open('Loading...')
+      this.$router.push('/login/plurk')
+      this.$indicator.close()
+
+    },
+    logout() {
+      this.$indicator.open('Loading...')
+      this.$store.dispatch('user/LogOut').then(() => {
+        this.$indicator.close()
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    }
+  },
 }
 </script>
 
@@ -51,6 +84,10 @@ a {
   color: inherit;
 }
 
+.mint-header {
+  font-size: 16px;
+}
+
 .page-header-main {
   margin-top: 50px;
   min-height: 120vh;
@@ -59,18 +96,5 @@ a {
 
 .page-title {
   text-align: center;
-}
-
-.page-back {
-  display: inline-block;
-  position: absolute;
-  width: 40px;
-  height: 40px;
-  text-align: center;
-
-  i {
-    font-size: 24px;
-    line-height: 40px;
-  }
 }
 </style>

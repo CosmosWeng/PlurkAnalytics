@@ -16,15 +16,18 @@
         />
         Home
       </mt-tab-item>
-      <mt-tab-item id="message">
+      <mt-tab-item id="message/list">
         <svg-icon
-          icon-class="plurk"
+          icon-class="message"
           class="icon"
         />
         Message
       </mt-tab-item>
 
-      <mt-tab-item id="plurk">
+      <mt-tab-item
+        v-if="token"
+        id="plurk"
+      >
         <svg-icon
           icon-class="plurk"
           class="icon"
@@ -36,12 +39,18 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   components: {},
   data() {
     return {
       selected: 'index'
     }
+  },
+  computed: {
+    ...mapGetters({
+      token: "user/token",
+    }),
   },
   watch: {
     selected(value) {
@@ -54,7 +63,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" scoped lang="scss">
+<style rel="stylesheet/scss" lang="scss">
 .page-tabbar {
   overflow: hidden;
   height: 100vh;
@@ -64,5 +73,9 @@ export default {
   overflow: auto;
   height: 100%;
   padding-bottom: 100px;
+}
+
+.mint-tab-item-label {
+  font-size: 18px !important;
 }
 </style>

@@ -105,31 +105,27 @@
     <el-dialog
       :title="textMap[dialogStatus]"
       :visible.sync="dialogFormVisible"
+      width="100%"
     >
       <el-form
         ref="dataForm"
         :rules="rules"
         :model="temp"
-        label-position="left"
-        label-width="70px"
-        style="width: 400px; margin-left:50px;"
+        style="width: 100%;"
       >
-        <el-form-item
-          label="Title"
-          prop="title"
-        >
-          <el-input v-model="temp.title" />
+        <el-form-item prop="title">
+          <el-input
+            v-model="temp.title"
+            placeholder="Please input Title"
+          />
         </el-form-item>
 
-        <el-form-item
-          label="Content"
-          prop="content"
-        >
+        <el-form-item prop="content">
           <el-input
             v-model="temp.content"
             :autosize="{ minRows: 4, maxRows: 10}"
             type="textarea"
-            placeholder="Please input"
+            placeholder="Please input Content"
           />
         </el-form-item>
       </el-form>

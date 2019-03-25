@@ -1,5 +1,20 @@
 <template>
   <div class="page-infinite">
+    <mt-header
+      fixed
+      title="Message"
+    >
+      <mt-button
+        slot="right"
+        class="page-new"
+        @click="MessageFormDialogModel.dialogFormVisible = !MessageFormDialogModel.dialogFormVisible"
+      >
+        <svg-icon
+          icon-class="guide"
+          class="icon"
+        />
+      </mt-button>
+    </mt-header>
     <div
       ref="wrapper"
       class="page-infinite-wrapper"
@@ -33,6 +48,8 @@
         加载中...
       </p>
     </div>
+
+    <sendMessageFormDialog v-model="MessageFormDialogModel" />
   </div>
 </template>
 
@@ -40,9 +57,9 @@
 import { MessageBox } from 'mint-ui'
 import { mapGetters } from 'vuex'
 import { fetchList, createMessage } from '@/api/message'
-
+import sendMessageFormDialog from './sendFormDialog'
 export default {
-  components: {},
+  components: { sendMessageFormDialog },
   data() {
     return {
       list: [],
@@ -54,6 +71,13 @@ export default {
         page: 0,
         limit: 15
       },
+      //
+      MessageFormDialogModel: {
+        dialogFormVisible: false,
+        dialogStatus: 'create',
+        parent_id: 0,
+        title: ''
+      }
     }
   },
   computed: {

@@ -11,16 +11,9 @@
       v-if="!token"
       class="avatar-container"
     >
-      <el-button @click="centerDialogVisible = true">
+      <el-button @click="login">
         登入
       </el-button>
-      <el-dialog
-        :visible.sync="centerDialogVisible"
-        :fullscreen="true"
-        center
-      >
-        <Login />
-      </el-dialog>
     </div>
 
     <el-dropdown
@@ -63,13 +56,11 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/views/element-ui/components/Breadcrumb'
 import Hamburger from '@/views/element-ui/components/Hamburger'
-import Login from '@/views/element-ui/login/index'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger,
-    Login
   },
   data() {
     return {
@@ -87,9 +78,12 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
     },
+    login() {
+      this.$router.push('/login/plurk')
+    },
     logout() {
       this.$store.dispatch('user/LogOut').then(() => {
-        location.reload() // 为了重新实例化vue-router对象 避免bug
+        this.$router.push('/')
       })
     }
   }

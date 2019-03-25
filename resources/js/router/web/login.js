@@ -1,5 +1,6 @@
 import { getToken, getAccessToken } from '@/api/login'
 import store from '@/store'
+import router from '@/router'
 
 export default {
   path: '/login',
@@ -19,7 +20,7 @@ export default {
           }
         })
 
-        return { name: 'Dashboard' }
+        // return { name: 'Dashboard' }
       }
     },
     {
@@ -47,10 +48,16 @@ export default {
               store.commit('user/SET_PLURK_USER', data.user)
             }
 
-            store.dispatch('GenerateRoutes', { roles: ['admin'] })
+            let roles = store.getters.roles
+
+            store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
+              router.addRoutes(accessRoutes)
+              next({ path: '/' })
+            })
+
+            //
           }
         })
-        next({ path: '/' })
       }
     }
   ]

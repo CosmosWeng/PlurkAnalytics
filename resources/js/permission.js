@@ -39,11 +39,10 @@ router.beforeEach((to, from, next) => {
             store.
               dispatch('user/GetInfo').
               then(res => {
-                roles = res.data.roles
+                roles = res.data.roles.map(item => item.name)
                 store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
                   router.addRoutes(accessRoutes)
-                  // next({ ...to, replace: true })
-                  next({ ...to })
+                  next()
                 })
               }).
               catch(err => {
