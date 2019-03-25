@@ -4,6 +4,7 @@ import Layout from '@/views/element-ui/layout/Layout'
 export default {
   path: '/message',
   component: Layout,
+  redirect: '/message/index',
   children: [
     {
       path: 'Index',

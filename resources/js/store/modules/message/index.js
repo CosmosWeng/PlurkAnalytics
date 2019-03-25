@@ -14,7 +14,9 @@ const mutations = {
 }
 
 const actions = {}
-const getters = {}
+const getters = {
+  message: state => state.message
+}
 
 export default {
   namespaced: true,

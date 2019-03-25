@@ -51,9 +51,10 @@ class DefaultMessageSeeder extends Seeder
                 ]
             ],
         ];
-
-        foreach ($messages as $message) {
-            $this->createMessage($message);
+        for ($i = 0; $i < 20; $i++) {
+            foreach ($messages as $message) {
+                $this->createMessage($message);
+            }
         }
     }
 
