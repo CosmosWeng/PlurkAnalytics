@@ -51,7 +51,7 @@ class DefaultMessageSeeder extends Seeder
                 ]
             ],
         ];
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             foreach ($messages as $message) {
                 $this->createMessage($message);
             }
@@ -60,11 +60,15 @@ class DefaultMessageSeeder extends Seeder
 
     public function createMessage($message)
     {
+        $faker    = Faker\Factory::create();
         $children = $message['reply'] ?? false;
         unset($message['reply']);
 
-        $res = Message::create($message);
-        $id  = $res->id;
+        $message['title']   = $faker->sentence();
+        $message['content'] = $faker->text(50);
+
+        $res              = Message::create($message);
+        $id               = $res->id;
 
         if ($children) {
             foreach ($children as $value) {

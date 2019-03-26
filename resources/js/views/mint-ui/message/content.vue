@@ -21,14 +21,22 @@
       留言
     </h1>
 
+    <div class="page-content">
+      Content: <br>
+      <blockquote>
+        {{ message.content }}
+      </blockquote>
+    </div>
+    <hr>
     <div
       v-for="(item, index) in responses"
       :key="index"
+      class="page-response"
     >
       {{ (item.user)?item.user.name:'' }} at {{ item.created_at }} : <br>
-      <p>
+      <blockquote>
         {{ item.content }}
-      </p>
+      </blockquote>
     </div>
 
     <sendMessageFormDialog v-model="MessageFormDialogModel" />
@@ -94,5 +102,13 @@ export default {
 .page-reply {
   position: absolute;
   right: 1%;
+}
+
+.page-content {
+  font-size: 16px;
+  margin: 10px;
+}
+.page-response {
+  margin: 10px;
 }
 </style>

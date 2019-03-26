@@ -3377,6 +3377,13 @@ a {
 .page-reply[data-v-ec8cebdc] {
   position: absolute;
   right: 1%;
+}
+.page-content[data-v-ec8cebdc] {
+  font-size: 16px;
+  margin: 10px;
+}
+.page-response[data-v-ec8cebdc] {
+  margin: 10px;
 }.wscn-http404-container[data-v-d215c3ee] {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
