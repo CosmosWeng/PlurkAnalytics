@@ -7,3 +7,11 @@ export function fetchPlurks(query) {
     params: query
   })
 }
+
+export function getPlurkResponsesByPlurkID(plurk_id) {
+  return request({
+    url: '/plurk/response',
+    method: 'get',
+    params: { plurk_id }
+  })
+}

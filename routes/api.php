@@ -23,6 +23,8 @@ Route::group(['middleware' => ['auth.token']], function () {
         Route::get('getFriends', 'PlurkController@getFriendsCompletion');
         Route::get('getFriendsByOffset', 'PlurkController@getFriendsByOffset');
         Route::get('getMe', 'PlurkController@getUsersMe');
+
+        Route::get('response', 'PlurkController@getPlurkResponsesByPlurkID');
     });
 
     Route::get('plurk', 'PlurkController@index');

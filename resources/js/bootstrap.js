@@ -42,3 +42,20 @@ window.axios.defaults.headers.common = {
 //     broadcaster: 'pusher',
 //     key: 'your-pusher-key'
 // });
+
+// 違反：沒有添加被動事件監聽器來阻止'touchstart'事件，請考慮添加事件管理者'passive'，以使頁面更加流暢。
+var passiveSupported = false
+
+try {
+  var options = Object.defineProperty({}, 'passive', {
+    get: function() {
+      passiveSupported = true
+    }
+  })
+
+  window.addEventListener('test', null, options)
+} catch (err) {}
+function fn() {
+  console.log('fn')
+}
+document.addEventListener('mousewheel', fn, passiveSupported ? { passive: true } : false)

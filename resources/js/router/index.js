@@ -36,7 +36,7 @@ export const constantRoutes = [
     beforeEnter: (to, from, next) => {
       let cachePath = localStorage.getObject('cacheRoutePath')
 
-      if (checkAsyncRoutes(asyncRoutes, cachePath)) {
+      if (cachePath && checkAsyncRoutes(asyncRoutes, cachePath)) {
         next({ path: cachePath })
       }
 
