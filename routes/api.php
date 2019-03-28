@@ -25,6 +25,8 @@ Route::group(['middleware' => ['auth.token']], function () {
         Route::get('getMe', 'PlurkController@getUsersMe');
     });
 
+    Route::get('plurk', 'PlurkController@index');
+
     //
     Route::group(['prefix' => 'analyse'], function () {
         Route::get('report', 'PlurkAnalyticController@getReportAll');

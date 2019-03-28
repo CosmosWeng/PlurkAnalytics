@@ -1414,6 +1414,15 @@ to {
   right: 15px;
   top: 10px;
 }
+
+.edit-input[data-v-40b159a0] {
+  padding-right: 100px;
+}
+.cancel-btn[data-v-40b159a0] {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
 .dashboard-container[data-v-5781c84c] {
   margin: 30px;
 }

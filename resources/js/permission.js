@@ -26,9 +26,9 @@ router.beforeEach((to, from, next) => {
 
   store.
     dispatch('GenerateRoutes', { roles }).
-    // then(accessRoutes => {
-    //   // router.addRoutes(accessRoutes)
-    // }).
+    then(accessRoutes => {
+      // router.addRoutes(accessRoutes)
+    }).
     then(function() {
       if (getToken()) {
         if (to.path === '/login') {
@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
                 roles = res.data.roles.map(item => item.name)
                 store.dispatch('GenerateRoutes', { roles }).then(accessRoutes => {
                   router.addRoutes(accessRoutes)
-                  next()
+                  next({ ...to, replace: true })
                 })
               }).
               catch(err => {

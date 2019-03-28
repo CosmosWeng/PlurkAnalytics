@@ -35,6 +35,27 @@ export function filterAsyncRoutes(routes, roles) {
   return res
 }
 
+export function checkAsyncRoutes(routes, path) {
+  let is_exist = false
+
+  routes.forEach(route => {
+    const tmp = { ...route }
+
+    if (path == tmp.path) {
+      is_exist = true
+    }
+
+    if (tmp.children) {
+      var regExp = new RegExp('\\' + tmp.path + '/')
+
+      path = path.replace(regExp, '')
+      is_exist = checkAsyncRoutes(tmp.children, path)
+    }
+  })
+
+  return is_exist
+}
+
 const permission = {
   state: {
     routes: [],

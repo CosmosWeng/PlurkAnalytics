@@ -22,6 +22,7 @@ Vue.use(Router)
     affix: true                  if true, the tag will affix in the tags-view
   }
 **/
+import { checkAsyncRoutes } from '@/store/modules/permission'
 import * as web from './web'
 import mobile from './mobile'
 
@@ -33,6 +34,12 @@ export const constantRoutes = [
     hidden: true,
     component: () => import('@/views/404'),
     beforeEnter: (to, from, next) => {
+      let cachePath = localStorage.getObject('cacheRoutePath')
+
+      if (checkAsyncRoutes(asyncRoutes, cachePath)) {
+        next({ path: cachePath })
+      }
+
       if (to.params.hasOwnProperty('from')) {
         next()
       } else {

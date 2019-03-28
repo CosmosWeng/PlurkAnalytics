@@ -34,6 +34,12 @@ export default {
       component: () => import('@/views/element-ui/plurk/friend'),
       // component: Friend,
       meta: { title: 'Friend', icon: 'peoples', roles: ['user'] }
+    },
+    {
+      path: 'dice_game',
+      name: 'PlurkDiceGame',
+      component: () => import('@/views/element-ui/plurk/dice-game'),
+      meta: { title: 'Dice Game', icon: 'peoples', roles: ['user'] }
     }
   ]
 }

@@ -44,6 +44,14 @@ export default {
       }
     }
   },
+  watch: {
+    '$route': {
+      handler(newValue) {
+        localStorage.setObject('cacheRoutePath', newValue.path)
+      },
+      deep: true
+    }
+  },
   methods: {
     handleClickOutside() {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })

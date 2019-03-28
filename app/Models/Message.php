@@ -60,6 +60,16 @@ class Message extends Model
         'content' => 'required',
     ];
 
+    // public function getTitleAttribute($value)
+    // {
+    //     return htmlspecialchars($value);
+    // }
+
+    public function getContentAttribute($value)
+    {
+        return htmlspecialchars($value);
+    }
+
     public function children()
     {
         return $this->hasMany('App\Models\Message', 'parent_id', 'id');

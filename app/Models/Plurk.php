@@ -55,4 +55,9 @@ class Plurk extends Model
      */
     public static $rules = [
     ];
+
+    // public function getContentAttribute($value)
+    // {
+    //     return htmlspecialchars($value);
+    // }
 }
