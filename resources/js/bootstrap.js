@@ -56,6 +56,6 @@ try {
   window.addEventListener('test', null, options)
 } catch (err) {}
 function fn() {
-  console.log('fn')
+  // console.log('fn')
 }
 document.addEventListener('mousewheel', fn, passiveSupported ? { passive: true } : false)

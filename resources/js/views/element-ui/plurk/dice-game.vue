@@ -32,6 +32,15 @@
 
       <el-table-column
         align="center"
+        label="時間"
+      >
+        <template slot-scope="scope">
+          <span>{{ scope.row.posted }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column
+        align="center"
         label="Actions"
         min-width="120"
       >
