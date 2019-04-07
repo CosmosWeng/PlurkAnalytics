@@ -10,6 +10,16 @@ class Util
 {
     const INPUTKEY = 'token';
 
+    //s2twp.json 簡體到繁體（臺灣正體標準）並轉換為臺灣常用詞彙
+    public static function OpenccConvert($string, $config = 's2twp.json')
+    {
+        $od   = opencc_open($config);
+        $text = opencc_convert($string, $od);
+        opencc_close($od);
+
+        return $text;
+    }
+
     /**
      * 將Json格式的字串 轉換為 PHP Array
      * @param string $inputstring 「JSON」格式字串

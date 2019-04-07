@@ -50,3 +50,6 @@ Route::get('getMe', function () {
     ], 200);
 });
 Route::resource('messages', 'MessageAPIController');
+
+Route::resource('animes', 'AnimeAPIController');
+Route::resource('anime_infos', 'AnimeInfoAPIController');
