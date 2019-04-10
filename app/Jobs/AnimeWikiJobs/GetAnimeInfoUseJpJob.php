@@ -46,7 +46,7 @@ class GetAnimeInfoUseJpJob implements ShouldQueue
             return $value['lang_id'] == 3;
         });
 
-        $page = preg_replace('/^\/wiki\//', '', $info['wiki_source']) ;
+        $page = preg_replace('/^\/wiki\//', '', $info['wiki_source']);
 
         try {
             $response = $this->client($page);

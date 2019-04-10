@@ -7,6 +7,7 @@ use App\Models\Anime;
 use App\Models\AnimeInfo;
 use App\Utils\Util;
 use App\Jobs\AnimeWikiJobs\GetAnimeInfoUseJpJob;
+use App\Jobs\AnimeWikiJobs\GetAnimeInfoUseZhJob;
 
 class parserWiki extends Command
 {
@@ -15,7 +16,7 @@ class parserWiki extends Command
      *
      * @var string
      */
-    protected $signature = 'anime:parser';
+    protected $signature = 'anime:parser {lang}';
 
     /**
      * The console command description.
@@ -41,16 +42,45 @@ class parserWiki extends Command
      */
     public function handle()
     {
-        //
-        // $animes = Anime::whereIn('id', ['3501', '3821', '4131'])->get();
-        // // dd($anime);
-        // foreach ($animes as $anime) {
-        //     GetAnimeInfoUseJpJob::dispatch($anime);
-        // }
-        // exit;
+        $lang = $this->argument('lang');
 
+        if ($lang == 'en') {
+            $this->getAnimeByEn();
+        }
+
+        if ($lang == 'zh') {
+            $this->getAnimeByZh();
+        }
+    }
+
+    public function getAnimeByZh()
+    {
+        $animes = Anime::Select('animes.*')
+            ->leftJoin('anime_infos', function ($join) {
+                $join->on('anime_infos.anime_id', '=', 'animes.id')
+                    ->where('lang_id', 2);
+            })
+            ->whereNotNull('anime_infos.wiki_source')
+            ->where('serie_code', '000000')
+            // ->orderby('animes.id', 'desc')
+            // ->take(1)
+            ->get();
+
+        // dd($animes, Util::getSqlLogs());
+        $bar = $this->output->createProgressBar(count($animes));
+        foreach ($animes as $anime) {
+            GetAnimeInfoUseZhJob::dispatch($anime);
+            $bar->advance();
+        }
+        $bar->finish();
+        $this->line('Finish');
+    }
+
+    public function getAnimeByEn()
+    {
         //
-        $animes = Anime::leftJoin('anime_infos', 'anime_infos.anime_id', '=', 'animes.id')
+        $animes = Anime::Select('animes.*')
+            ->leftJoin('anime_infos', 'anime_infos.anime_id', '=', 'animes.id')
             ->whereNotNull('anime_infos.wiki_source')
             ->where('serie_code', '000000')
             // ->orderby('animes.id', 'desc')
@@ -58,13 +88,9 @@ class parserWiki extends Command
             ->get();
 
         // dd($animes->toArray(), Util::getSqlLogs());
-
         $bar = $this->output->createProgressBar(count($animes));
         foreach ($animes as $index => $anime) {
             GetAnimeInfoUseJpJob::dispatch($anime);
-            if ($index > 10) {
-                break;
-            }
             $bar->advance();
         }
         $bar->finish();
