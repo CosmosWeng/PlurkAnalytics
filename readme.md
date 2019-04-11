@@ -1,9 +1,16 @@
 # Plurk Analytics
 
+## Demo
+
+[大波斯菊服務](https://xn--lhrp0m8vl9kbi5nk70b.tw/dashboard)
+
+-   Server: GCE, 免費方案
+
 ## Feature
 
 -   Plurk 登入
 -   Plurk Bot
+-   留言板
 
 ## 相依
 

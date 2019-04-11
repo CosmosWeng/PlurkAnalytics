@@ -40,8 +40,8 @@ class Kernel extends ConsoleKernel
         // RegisterUserJob::dispatch($user, $qlurk);
 
         // Job Plurk Bot
-        // $schedule->job(new ScanPlurksJob)->everyMinute();
-        // $schedule->job(new ScanPlurkMissionJob())->everyMinute();
+        $schedule->job(new ScanPlurksJob)->everyMinute();
+        $schedule->job(new ScanPlurkMissionJob())->everyMinute();
     }
 
     /**
