@@ -39,7 +39,7 @@ jobs:
           sudo apt-get update
           # sudo apt-get install -y yarn
           sudo apt-get install -y zlib1g-dev libsqlite3-dev libicu-dev g++
-          sudo apt-get install -y mysql-server
+          # sudo apt-get install -y mysql-server
           sudo apt-get install -y mysql-client
 
       - run: sudo docker-php-ext-configure intl
