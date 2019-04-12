@@ -9,6 +9,14 @@ jobs:
       # Specify the version you desire here
       # - image: circleci/php:7.1-jessie-node-browsers
       - image: circleci/php:7.2-fpm-node-browsers
+        environment:
+          # Define these information to be used later in script
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: homestead
+          DB_USERNAME: root
+          DB_PASSWORD: enFn8dsmQBi4gkcP
       # - image: shincoder/homestead:php7.2
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -18,17 +26,13 @@ jobs:
       - image: mysql:5.7
         environment:
           MYSQL_ROOT_HOST: '%'
-          # MYSQL_ROOT_PASSWORD: secret
-          MYSQL_ROOT_PASSWORD: ''
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: homestead
-          MYSQL_USER: homestead
-          MYSQL_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: enFn8dsmQBi4gkcP
+
       # - image: redis:2.8.19
       # OPENCC image
       # - image: samwutw/opencci:1.0.11
 
-    # working_directory: ~/laravel
+    working_directory: ~/PlurkAnalytics
     steps:
       - checkout
 
@@ -38,9 +42,9 @@ jobs:
       - run: |
           sudo apt-get update
           # sudo apt-get install -y yarn
-          sudo apt-get install -y zlib1g-dev libsqlite3-dev libicu-dev g++
+          # sudo apt-get install -y zlib1g-dev libsqlite3-dev libicu-dev g++
           # sudo apt-get install -y mysql-server
-          sudo apt-get install -y mysql-client
+          # sudo apt-get install -y mysql-client
 
       - run: sudo docker-php-ext-configure intl
       - run: sudo docker-php-ext-install intl
@@ -55,22 +59,33 @@ jobs:
             DOCKERIZE_VERSION: v0.6.0
       - run:
           name: Wait for db
-          command: dockerize -wait tcp://localhost:3306 -timeout 120s
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
 
       - run:
-          name: Start database server
+          name: Install MySQL client
           command: |
-            sudo service mysql start
-            sleep 2
-            ps aux | grep mysql
+            sudo apt install mysql-client
+
+      # - run:
+      #     name: Install Demo Database
+      #     command: |
+      #       mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD $DB_DATABASE < <PATH TO YOUR DATABASE FILE>
+      #       #Example: /home/circleci/<YOUR REPOSITORY>/<YOUR DATABASE FILE>
 
       - run:
           name: Mysql database
           command: |
-            mysql -u homestead -e "create database homestead;"
-            # mysql -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
-            # mysql -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
-            # mysql -u root -e "FLUSH PRIVILEGES;";
+            mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e "create database homestead;"
+            mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
+            mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
+            mysql -h$DB_HOST -u$DB_USERNAME -p$DB_PASSWORD -e "FLUSH PRIVILEGES;";
+
+      - run:
+          name: Start database server
+          command: |
+            # sudo service mysql start
+            # sleep 2
+            ps aux | grep mysql
 
       # Download and cache dependencies
 
