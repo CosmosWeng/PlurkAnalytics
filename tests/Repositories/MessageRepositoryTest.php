@@ -1,4 +1,6 @@
-<?php namespace Tests\Repositories;
+<?php
+
+namespace Tests\Repositories;
 
 use App\Models\Message;
 use App\Repositories\MessageRepository;
@@ -27,7 +29,7 @@ class MessageRepositoryTest extends TestCase
      */
     public function test_create_message()
     {
-        $message = $this->fakeMessageData();
+        $message        = $this->fakeMessageData();
         $createdMessage = $this->messageRepo->create($message);
         $createdMessage = $createdMessage->toArray();
         $this->assertArrayHasKey('id', $createdMessage);
@@ -41,7 +43,7 @@ class MessageRepositoryTest extends TestCase
      */
     public function test_read_message()
     {
-        $message = $this->makeMessage();
+        $message   = $this->makeMessage();
         $dbMessage = $this->messageRepo->find($message->id);
         $dbMessage = $dbMessage->toArray();
         $this->assertModelData($message->toArray(), $dbMessage);
@@ -52,8 +54,8 @@ class MessageRepositoryTest extends TestCase
      */
     public function test_update_message()
     {
-        $message = $this->makeMessage();
-        $fakeMessage = $this->fakeMessageData();
+        $message        = $this->makeMessage();
+        $fakeMessage    = $this->fakeMessageData();
         $updatedMessage = $this->messageRepo->update($fakeMessage, $message->id);
         $this->assertModelData($fakeMessage, $updatedMessage->toArray());
         $dbMessage = $this->messageRepo->find($message->id);
@@ -66,7 +68,7 @@ class MessageRepositoryTest extends TestCase
     public function test_delete_message()
     {
         $message = $this->makeMessage();
-        $resp = $this->messageRepo->delete($message->id);
+        $resp    = $this->messageRepo->delete($message->id);
         $this->assertTrue($resp);
         $this->assertNull(Message::find($message->id), 'Message should not exist in DB');
     }
