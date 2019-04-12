@@ -17,14 +17,10 @@ jobs:
       # for database intensive operations.
       - image: mysql:5.7 # 测试需要依赖 MySQL
         environment:
-          - MYSQL_DATABASE: homestead
-          - MYSQL_PASSWORD: secret
-          - MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        command:
-          - --character-set-server=utf8mb4 # 以下 command 是为了正确创建出 utf8mb4 的数据库
-          - --collation-server=utf8mb4_unicode_ci
-          - --skip-character-set-client-handshake
-      #
+          MYSQL_DATABASE: homestead
+          MYSQL_PASSWORD: secret
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+
       # - image: redis:2.8.19
 
       # OPENCC image
