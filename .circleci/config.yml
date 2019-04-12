@@ -18,7 +18,7 @@ jobs:
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_HOST: '%'
-          MYSQL_ROOT_PASSWORD: homestead
+          MYSQL_ROOT_PASSWORD: secret
           # MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: homestead
           MYSQL_USER: homestead
@@ -48,10 +48,18 @@ jobs:
       - run: sudo docker-php-ext-install zip pdo_mysql
 
       - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.0
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 120s
+
+      - run:
           name: Start database server
           command: |
-            sleep 2
-            sudo service mysql restart
+            sudo service mysql start
             sleep 2
             ps aux | grep mysql
 
