@@ -47,18 +47,14 @@ jobs:
 
       # - run: sudo docker-php-ext-install zip pdo_mysql
 
-      # - run:
-      #     name: Start database server
-      #     command: |
-      #       sleep 2
-      #       sudo service mysql start
-      #       sleep 2
-      #       ps aux | grep mysql
-
       - run:
-          name: Fix MySQL socket config
+          name: Start database server
           command: |
-            sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
+            sudo service --status-all
+            sleep 2
+            sudo service mysql restart
+            sleep 2
+            ps aux | grep mysql
 
       - run:
           name: Mysql database
