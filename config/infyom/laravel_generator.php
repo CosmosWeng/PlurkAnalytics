@@ -29,11 +29,13 @@ return [
 
         'api_controller'    => app_path('Http/Controllers/API/'),
 
-        'test_trait'        => base_path('tests/traits/'),
+        'test_trait'        => base_path('tests/Traits/'),
 
-        'repository_test'   => base_path('tests/'),
+        'repository_test'   => base_path('tests/Repositories/'),
 
-        'api_test'          => base_path('tests/'),
+        'api_test'          => base_path('tests/APIs/'),
+
+        'tests'             => base_path('tests/'),
 
         'views'             => base_path('resources/views/'),
 
@@ -41,7 +43,7 @@ return [
 
         'templates_dir'     => base_path('resources/infyom/infyom-generator-templates/'),
 
-        'modelJs'           => base_path('resources/js/models/'),
+        'modelJs'           => base_path('resources/assets/js/models/'),
     ],
 
     /*
@@ -65,6 +67,14 @@ return [
         'request'           => 'App\Http\Requests',
 
         'api_request'       => 'App\Http\Requests\API',
+
+        'test_trait'        => 'Tests\Traits',
+
+        'repository_test'   => 'Tests\Repositories',
+
+        'api_test'          => 'Tests\APIs',
+
+        'tests'             => 'Tests',
     ],
 
     /*
@@ -94,7 +104,7 @@ return [
 
     'api_prefix'  => 'api',
 
-    'api_version' => '',
+    'api_version' => 'v1',
 
     /*
     |--------------------------------------------------------------------------
@@ -107,6 +117,8 @@ return [
         'softDelete' => true,
 
         'tables_searchable_default' => false,
+
+        'excluded_fields' => ['id'], // Array of columns that doesn't required while creating module
     ],
 
     /*
@@ -141,7 +153,7 @@ return [
         'datatables'    => false,
 
         'menu'          => [
-            'enabled'       => false,
+            'enabled'       => true,
 
             'menu_file'     => 'layouts/menu.blade.php',
         ],
@@ -171,4 +183,14 @@ return [
     |
     */
     'ignore_model_prefix' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Specify custom doctrine mappings as per your need
+    |--------------------------------------------------------------------------
+    |
+    */
+    'from_table' => [
+        'doctrine_mappings' => [],
+    ],
 ];

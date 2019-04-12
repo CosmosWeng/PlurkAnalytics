@@ -1,4 +1,4 @@
-<?php
+<?php namespace Tests\Traits;
 
 use Faker\Factory as Faker;
 use App\Models\Message;
@@ -15,7 +15,7 @@ trait MakeMessageTrait
     public function makeMessage($messageFields = [])
     {
         /** @var MessageRepository $messageRepo */
-        $messageRepo = App::make(MessageRepository::class);
+        $messageRepo = \App::make(MessageRepository::class);
         $theme = $this->fakeMessageData($messageFields);
         return $messageRepo->create($theme);
     }
@@ -34,7 +34,7 @@ trait MakeMessageTrait
     /**
      * Get fake data of Message
      *
-     * @param array $postFields
+     * @param array $messageFields
      * @return array
      */
     public function fakeMessageData($messageFields = [])
@@ -42,10 +42,12 @@ trait MakeMessageTrait
         $fake = Faker::create();
 
         return array_merge([
-            'user_id' => $fake->randomDigitNotNull,
             'parent_id' => $fake->randomDigitNotNull,
+            'user_id' => $fake->randomDigitNotNull,
             'title' => $fake->word,
             'content' => $fake->text,
+            'is_reply' => $fake->randomDigitNotNull,
+            'is_public' => $fake->randomDigitNotNull,
             'updated_at' => $fake->date('Y-m-d H:i:s'),
             'created_at' => $fake->date('Y-m-d H:i:s'),
             'deleted_at' => $fake->date('Y-m-d H:i:s')
