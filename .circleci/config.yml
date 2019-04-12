@@ -40,7 +40,7 @@ jobs:
           # sudo apt install -y mysql-client
           # sudo apt install -y mysql-server
 
-      - run: sudo docker-php-ext-install zip pdo_mysql
+      # - run: sudo docker-php-ext-install zip pdo_mysql
 
       - run:
           name: Start database server
