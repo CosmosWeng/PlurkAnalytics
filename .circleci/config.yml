@@ -15,14 +15,14 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_USER: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          # MYSQL_ROOT_PASSWORD: circleci
-          # MYSQL_DATABASE: homestead
-          # MYSQL_USER: homestead
-          # MYSQL_PASSWORD: secret
+      # - image: circleci/mysql:5.7
+      #   environment:
+      #     MYSQL_USER: root
+      #     MYSQL_ALLOW_EMPTY_PASSWORD: true
+      #     MYSQL_ROOT_PASSWORD: circleci
+      #     MYSQL_DATABASE: homestead
+      #     MYSQL_USER: homestead
+      #     MYSQL_PASSWORD: secret
 
       # - image: mysql:5.7 # 测试需要依赖 MySQL
       #   environment:
@@ -39,27 +39,33 @@ jobs:
     steps:
       - checkout
 
-      - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev && sudo apt install -y mysql-client
+      - run: |
+        sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
+        sudo apt install -y mysql-client
+        sudo apt install -y mysql-server
+
+      - run: sudo docker-php-ext-install zip pdo_mysql
+
 
       - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
+        name: Fix MySQL socket config
+        command: |
+          sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
 
       - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+          name: Start database server
+          command: |
+            sudo service mysql start
+            sleep 2
+            ps aux | grep mysql
 
       - run:
           name: Mysql database
           command: |
             mysql  -h 127.0.0.1 -u root -e "create database homestead;"
-            mysql  -h 127.0.0.1 -u root -e "CREATE USER homestead@localhost IDENTIFIED BY 'secret';";
+            mysql  -h 127.0.0.1 -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
             mysql  -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
             mysql  -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;";
-
-      - run: sudo docker-php-ext-install zip pdo_mysql
 
       # Download and cache dependencies
 
