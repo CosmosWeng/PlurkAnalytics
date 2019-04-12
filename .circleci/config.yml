@@ -56,6 +56,11 @@ jobs:
       #       ps aux | grep mysql
 
       - run:
+          name: Fix MySQL socket config
+          command: |
+            sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
+
+      - run:
           name: Mysql database
           command: |
             mysql -u root -e "create database homestead;"
