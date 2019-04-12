@@ -8,7 +8,8 @@ jobs:
     docker:
       # Specify the version you desire here
       # - image: circleci/php:7.1-jessie-node-browsers
-      - image: circleci/php:7.2-fpm-node-browsers
+      # - image: circleci/php:7.2-fpm-node-browsers
+      - image: shincoder/homestead:php7.2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -24,12 +25,6 @@ jobs:
       #     MYSQL_USER: homestead
       #     MYSQL_PASSWORD: secret
 
-      # - image: mysql:5.7 # 测试需要依赖 MySQL
-      #   environment:
-      #     MYSQL_DATABASE: homestead
-      #     MYSQL_PASSWORD: secret
-      #     MYSQL_ALLOW_EMPTY_PASSWORD: yes
-
       # - image: redis:2.8.19
 
       # OPENCC image
@@ -41,25 +36,25 @@ jobs:
 
       - run: |
           sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
-          sudo apt install -y mysql-client
-          sudo apt install -y mysql-server
+          # sudo apt install -y mysql-client
+          # sudo apt install -y mysql-server
 
       - run: sudo docker-php-ext-install zip pdo_mysql
 
       - run:
           name: Start database server
           command: |
-            sudo service mysql start
+            sudo service mysql restart
             sleep 2
             ps aux | grep mysql
 
-      - run:
-          name: Mysql database
-          command: |
-            mysql  -h 127.0.0.1 -u root -e "create database homestead;"
-            mysql  -h 127.0.0.1 -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
-            mysql  -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
-            mysql  -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;";
+      # - run:
+      #     name: Mysql database
+      #     command: |
+      #       mysql  -h 127.0.0.1 -u root -e "create database homestead;"
+      #       mysql  -h 127.0.0.1 -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
+      #       mysql  -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
+      #       mysql  -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;";
 
       # Download and cache dependencies
 
