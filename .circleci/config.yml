@@ -17,7 +17,7 @@ jobs:
       # for database intensive operations.
       - image: circleci/mysql:5.7
         environment:
-          MYSQL_ROOT_PASSWORD: rootpw
+          MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: homestead
           MYSQL_USER: homestead
           MYSQL_PASSWORD: secret
@@ -33,11 +33,23 @@ jobs:
       # OPENCC image
       - image: samwutw/opencci:1.0.11
 
+    working_directory: ~/laravel
     steps:
       - checkout
 
       - run: sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
+
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+
+      - run: sudo docker-php-ext-install zip pdo_mysql
 
       # Download and cache dependencies
 
@@ -71,17 +83,9 @@ jobs:
 
       # prepare the database
 
-      - run:
-          name: install dockerize
-          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-          environment:
-            DOCKERIZE_VERSION: v0.3.0
-      - run:
-          name: Wait for db
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-
+      - run: chmod -R 777 storage
       - run: cp .env.example .env
-      - run: php artisan migrate
+      # - run: php artisan migrate
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
