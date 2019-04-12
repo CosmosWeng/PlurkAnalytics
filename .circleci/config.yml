@@ -50,7 +50,8 @@ jobs:
       - run:
           name: Start database server
           command: |
-            sudo service mysql restart
+            sleep 2
+            sudo service mysql start
             sleep 2
             ps aux | grep mysql
 
