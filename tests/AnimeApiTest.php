@@ -1,4 +1,6 @@
-<?php namespace Tests\APIs;
+<?php
+
+namespace Tests\APIs;
 
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,7 +17,7 @@ class AnimeApiTest extends TestCase
      */
     public function test_create_anime()
     {
-        $anime = $this->fakeAnimeData();
+        $anime          = $this->fakeAnimeData();
         $this->response = $this->json('POST', '/api/animes', $anime);
 
         $this->assertApiResponse($anime);
@@ -26,7 +28,7 @@ class AnimeApiTest extends TestCase
      */
     public function test_read_anime()
     {
-        $anime = $this->makeAnime();
+        $anime          = $this->makeAnime();
         $this->response = $this->json('GET', '/api/animes/'.$anime->id);
 
         $this->assertApiResponse($anime->toArray());
@@ -37,7 +39,7 @@ class AnimeApiTest extends TestCase
      */
     public function test_update_anime()
     {
-        $anime = $this->makeAnime();
+        $anime       = $this->makeAnime();
         $editedAnime = $this->fakeAnimeData();
 
         $this->response = $this->json('PUT', '/api/animes/'.$anime->id, $editedAnime);
@@ -50,7 +52,7 @@ class AnimeApiTest extends TestCase
      */
     public function test_delete_anime()
     {
-        $anime = $this->makeAnime();
+        $anime          = $this->makeAnime();
         $this->response = $this->json('DELETE', '/api/animes/'.$anime->id);
 
         $this->assertApiSuccess();
