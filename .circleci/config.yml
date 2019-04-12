@@ -15,11 +15,14 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      - image: circleci/mysql:5.7-ram
+      - image: circleci/mysql:5.7
         environment:
-          MYSQL_USER: homestead
-          MYSQL_PASSWORD: secret
-          MYSQL_DATABASE: homestead
+          - MYSQL_DATABASE: homestead
+          - MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        command:
+          - --character-set-server=utf8mb4 # 以下 command 是为了正确创建出 utf8mb4 的数据库
+          - --collation-server=utf8mb4_unicode_ci
+          - --skip-character-set-client-handshake
       #
       # - image: redis:2.8.19
 
@@ -65,7 +68,7 @@ jobs:
       # prepare the database
       - run: touch storage/testing.sqlite
       - run: cp .env.example .env
-      - run: php artisan migrate --env=testing --force
+      - run: php artisan migrate
 
       # run tests with phpunit or codecept
       #- run: ./vendor/bin/phpunit
