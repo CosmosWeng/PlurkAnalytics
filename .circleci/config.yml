@@ -35,7 +35,8 @@ jobs:
       - checkout
 
       - run: |
-          sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
+          sudo apt update
+          # sudo apt install -y zlib1g-dev libsqlite3-dev
           # sudo apt install -y mysql-client
           # sudo apt install -y mysql-server
 
