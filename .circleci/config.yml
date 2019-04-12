@@ -40,12 +40,11 @@ jobs:
       - checkout
 
       - run: |
-        sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
-        sudo apt install -y mysql-client
-        sudo apt install -y mysql-server
+          sudo apt update && sudo apt install zlib1g-dev libsqlite3-dev
+          sudo apt install -y mysql-client
+          sudo apt install -y mysql-server
 
       - run: sudo docker-php-ext-install zip pdo_mysql
-
 
       - run:
         name: Fix MySQL socket config
