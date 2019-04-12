@@ -15,11 +15,18 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      - image: mysql:5.7 # 测试需要依赖 MySQL
+      - image: circleci/mysql:5.7
         environment:
+          MYSQL_ROOT_PASSWORD: rootpw
           MYSQL_DATABASE: homestead
+          MYSQL_USER: homestead
           MYSQL_PASSWORD: secret
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+
+      # - image: mysql:5.7 # 测试需要依赖 MySQL
+      #   environment:
+      #     MYSQL_DATABASE: homestead
+      #     MYSQL_PASSWORD: secret
+      #     MYSQL_ALLOW_EMPTY_PASSWORD: yes
 
       # - image: redis:2.8.19
 
@@ -63,6 +70,18 @@ jobs:
             - ~/.yarn
 
       # prepare the database
+
+      - run:
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 30`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+
       - run: cp .env.example .env
       - run: php artisan migrate
 
