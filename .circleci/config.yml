@@ -17,9 +17,9 @@ jobs:
       # for database intensive operations.
       - image: circleci/mysql:5.7-ram
         environment:
-          MYSQL_USER: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: plurk_alytics
+          MYSQL_USER: homestead
+          MYSQL_PASSWORD: secret
+          MYSQL_DATABASE: homestead
       #
       # - image: redis:2.8.19
 
