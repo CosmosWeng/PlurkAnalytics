@@ -35,7 +35,12 @@ jobs:
       - checkout
 
       - run: |
-          sudo apt update
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y yarn
           # sudo apt install -y zlib1g-dev libsqlite3-dev
           # sudo apt install -y mysql-client
           # sudo apt install -y mysql-server
