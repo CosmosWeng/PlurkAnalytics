@@ -8,9 +8,8 @@ jobs:
     docker:
       # Specify the version you desire here
       # - image: circleci/php:7.1-jessie-node-browsers
-      # - image: circleci/php:7.2-fpm-node-browsers
-      - image: shincoder/homestead:php7.2
-
+      - image: circleci/php:7.2-fpm-node-browsers
+      # - image: shincoder/homestead:php7.2
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
@@ -24,33 +23,31 @@ jobs:
       #     MYSQL_DATABASE: homestead
       #     MYSQL_USER: homestead
       #     MYSQL_PASSWORD: secret
-
       # - image: redis:2.8.19
-
       # OPENCC image
-      - image: samwutw/opencci:1.0.11
+      # - image: samwutw/opencci:1.0.11
 
-    working_directory: ~/laravel
+    # working_directory: ~/laravel
     steps:
       - checkout
 
-      - run: |
-          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      # - run: |
+      #     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      #     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 
       - run: |
           sudo apt-get update
-          sudo apt-get install -y yarn
-          # sudo apt install -y zlib1g-dev libsqlite3-dev
+          # sudo apt-get install -y yarn
+          sudo apt install -y zlib1g-dev libsqlite3-dev
           sudo apt install -y mysql-client
-          # sudo apt install -y mysql-server
+          sudo apt install -y mysql-server
+          sudo service --status-all
 
-      # - run: sudo docker-php-ext-install zip pdo_mysql
+      - run: sudo docker-php-ext-install zip pdo_mysql
 
       - run:
           name: Start database server
           command: |
-            sudo service --status-all
             sleep 2
             sudo service mysql restart
             sleep 2
