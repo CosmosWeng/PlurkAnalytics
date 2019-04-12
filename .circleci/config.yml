@@ -54,13 +54,13 @@ jobs:
       #       sleep 2
       #       ps aux | grep mysql
 
-      # - run:
-      #     name: Mysql database
-      #     command: |
-      #       mysql  -h 127.0.0.1 -u root -e "create database homestead;"
-      #       mysql  -h 127.0.0.1 -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
-      #       mysql  -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
-      #       mysql  -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;";
+      - run:
+          name: Mysql database
+          command: |
+            mysql  -h 127.0.0.1 -u root -e "create database homestead;"
+            mysql  -h 127.0.0.1 -u root -e "CREATE USER 'homestead'@'localhost' IDENTIFIED BY 'secret';";
+            mysql  -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON homestead.* TO 'homestead'@'localhost';";
+            mysql  -h 127.0.0.1 -u root -e "FLUSH PRIVILEGES;";
 
       # Download and cache dependencies
 
