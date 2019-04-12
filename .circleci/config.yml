@@ -47,13 +47,13 @@ jobs:
 
       # - run: sudo docker-php-ext-install zip pdo_mysql
 
-      - run:
-          name: Start database server
-          command: |
-            sleep 2
-            sudo service mysql start
-            sleep 2
-            ps aux | grep mysql
+      # - run:
+      #     name: Start database server
+      #     command: |
+      #       sleep 2
+      #       sudo service mysql start
+      #       sleep 2
+      #       ps aux | grep mysql
 
       - run:
           name: Mysql database
