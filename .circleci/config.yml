@@ -18,8 +18,9 @@ jobs:
       - image: circleci/mysql:5.7
         environment:
           MYSQL_ROOT_HOST: '%'
-          MYSQL_ROOT_PASSWORD: secret
-          # MYSQL_ALLOW_EMPTY_PASSWORD: true
+          # MYSQL_ROOT_PASSWORD: secret
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: homestead
           MYSQL_USER: homestead
           MYSQL_PASSWORD: secret
@@ -34,18 +35,18 @@ jobs:
       # - run: |
       #     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
       #     echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-
       - run: |
           sudo apt-get update
           # sudo apt-get install -y yarn
-          sudo apt-get install -y zlib1g-dev libsqlite3-dev
+          sudo apt-get install -y zlib1g-dev libsqlite3-dev libicu-dev g++
           sudo apt-get install -y mysql-server
           sudo apt-get install -y mysql-client
-          sudo service --status-all
 
       - run: sudo docker-php-ext-configure intl
       - run: sudo docker-php-ext-install intl
       - run: sudo docker-php-ext-install zip pdo_mysql
+      #
+      - run: sudo service --status-all
 
       - run:
           name: install dockerize
@@ -59,6 +60,8 @@ jobs:
       - run:
           name: Start database server
           command: |
+            sudo service mysql stop
+            sleep 2
             sudo service mysql start
             sleep 2
             ps aux | grep mysql
