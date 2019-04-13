@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\PlurkUser;
+use App\Utils\CustomTokenUtil;
 
 class DefaultUserAccountSeeder extends Seeder
 {
@@ -44,6 +45,7 @@ class DefaultUserAccountSeeder extends Seeder
             'name'      => $resp['nick_name'],
             'email'     => $resp['email'],
             'password'  => Hash::make($resp['nick_name'].$resp['email'].$resp['uuid']),
+            'api_token' => CustomTokenUtil::getAuthApiToken('api')
         ]);
         // Set Role
         $user->setUserRole(['user']);
