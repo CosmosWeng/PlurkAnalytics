@@ -13,6 +13,17 @@
 
 Route::view('/', 'index');
 
+use Illuminate\Http\Request;
+
+Route::get('error_bag', function (Request $request) {
+    $validatedData = $request->validate([
+        'passwoed'              => 'required|confirmed',
+        // 'passwoed_confirmation' => 'required',
+    ]);
+
+    dd($validatedData);
+});
+
 Route::group(['prefix' => 'api/login'], function () {
     Route::post('getToken', 'AuthController@getToken');
     Route::post('accessToken', 'AuthController@getAccessToken');

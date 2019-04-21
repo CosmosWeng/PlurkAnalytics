@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,8 +35,6 @@ Route::group(['middleware' => ['auth.token']], function () {
         Route::get('report', 'PlurkAnalyticController@getReportAll');
     });
 });
-
-use App\Models\User;
 
 Route::get('getMe', function () {
     $user = User::with(['roles'])->find(1);

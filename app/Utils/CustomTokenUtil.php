@@ -5,7 +5,7 @@ namespace App\Utils;
 class CustomTokenUtil
 {
     //
-    public function getAuthApiToken($guard, $day = 30, $str_n = 10)
+    public static function getAuthApiToken($guard, $day = 30, $str_n = 10)
     {
         $time  = time();
         $token = [
