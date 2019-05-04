@@ -97,6 +97,7 @@ import { mapGetters } from 'vuex'
 import { fetchPlurks, getPlurkResponsesByPlurkID } from '@/api/plurk'
 import Pagination from '@/views/element-ui/components/Pagination' // Secondary package based on el-pagination
 
+import Plurk from '@/models/Plurk'
 export default {
   name: 'FriendList',
   components: { Pagination },
@@ -126,6 +127,10 @@ export default {
     }),
   },
   created() {
+    let plurks = Plurk.get()
+
+    console.log(plurks)
+
     this.getList()
   },
   methods: {

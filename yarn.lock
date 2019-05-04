@@ -6459,9 +6459,9 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   integrity sha1-9JvmtIeJTdxA3MlKMi9hEJLgDV4=
 
-"raphael@git+https://github.com/nhn/raphael.git#2.2.0-c":
+"raphael@https://github.com/nhn/raphael.git#2.2.0-c":
   version "2.2.0-c"
-  resolved "git+https://github.com/nhn/raphael.git#78a6ed3ec269f33b6457b0ec66f8c3d1f2ed70e0"
+  resolved "https://github.com/nhn/raphael.git#78a6ed3ec269f33b6457b0ec66f8c3d1f2ed70e0"
   dependencies:
     eve "git://github.com/adobe-webplatform/eve.git#eef80ed"
 
@@ -8079,6 +8079,11 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue-api-query@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/vue-api-query/-/vue-api-query-1.5.1.tgz#7abfd61f06fe3f22712c5c63bc101a53fd4147a8"
+  integrity sha512-9VAGugAe0idKZF7xmXzlOThvyBTpkv6YT4ihkbzwpIwLedCyLczr1LOKQ1m0qpK7EPFP4vHzN/zrY5HFfX/rMw==
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
