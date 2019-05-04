@@ -23,8 +23,7 @@ export default {
   },
   computed: {
     iconName() {
-      return `/svg/sprite.svg#sprite-${this.iconClass}`
-      // return `#icon-${this.iconClass}`
+      return `#icon-${this.iconClass}`
     },
     svgClass() {
       if (this.className) {

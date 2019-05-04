@@ -1,9 +1,7 @@
 const path = require('path')
 const mix = require('laravel-mix')
 
-const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin')
-const svgSourcePath = 'resources/js/icons/svg/*.svg'
-const svgSpriteDestination = '/svg/sprite.svg'
+require('laravel-mix-svg-sprite')
 
 /*
 |--------------------------------------------------------------------------
@@ -51,15 +49,12 @@ mix.webpackConfig({
         }
       }
     ]
-  },
-  plugins: [
-    new SVGSpritemapPlugin(svgSourcePath, {
-      output: {
-        filename: svgSpriteDestination,
-        svgo: true
-      }
-    })
-  ]
+  }
 })
 
-mix.js('resources/js/app.js', 'public/js').sass('resources/sass/app.scss', 'public/css')
+mix.
+  js('resources/js/app.js', 'public/js').
+  sass('resources/sass/app.scss', 'public/css').
+  svgSprite('resources/js/icons', 'public/sprite.svg', { symbolId: 'icon-[name]' }).
+  sourceMaps().
+  version()
